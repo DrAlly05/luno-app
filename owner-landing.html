@@ -1,0 +1,822 @@
+
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+  <meta name="theme-color" content="#0ECF8A">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LUNO Mmiliki">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+:root{
+--bg:#08080A;--bg2:#0F0F12;--bg3:#16161A;--bg4:#1C1C21;
+--bdr:rgba(255,255,255,0.06);--bdr2:rgba(255,255,255,0.1);--bdr3:rgba(255,255,255,0.15);
+--txt:#F2F2F7;--txt2:#98989F;--txt3:#5A5A62;
+--g:#0ECF8A;--gl:rgba(14,207,138,0.1);
+--r:#FF3B5C;--rl:rgba(255,59,92,0.1);
+--a:#FF9F0A;--al:rgba(255,159,10,0.1);
+--b:#5E5CE6;--bl:rgba(94,92,230,0.1);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);overflow-x:hidden;line-height:1}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 5%;transition:all .3s}
+nav.scrolled{background:rgba(8,8,10,0.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--bdr)}
+.nl{display:flex;align-items:center;gap:10px;cursor:pointer}
+.lm{width:30px;height:30px;background:var(--g);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#000;flex-shrink:0}
+.lt{font-size:17px;font-weight:800;color:var(--txt);letter-spacing:-.6px}
+.nr{display:flex;align-items:center;gap:6px}
+.lang-sw,.lang-en{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer;border:1px solid var(--bdr2);background:var(--bg3);font-family:'Inter',sans-serif;letter-spacing:.3px;transition:all .2s;color:var(--txt2)}
+.lang-sw.on,.lang-en.on{background:var(--g);color:#000;border-color:var(--g)}
+.nlink{padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;color:var(--txt2);cursor:pointer;border:none;background:transparent;font-family:'Inter',sans-serif;transition:color .2s}
+.nlink:hover{color:var(--txt)}
+.nbtn{padding:8px 18px;background:var(--g);color:#000;border:none;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:.2px;transition:opacity .2s}
+.nbtn:hover{opacity:.85}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 5% 80px;text-align:center;position:relative;overflow:hidden}
+.hero-orb1{position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:800px;height:800px;border-radius:50%;background:radial-gradient(ellipse,rgba(14,207,138,0.07) 0%,rgba(14,207,138,0.02) 40%,transparent 70%);pointer-events:none}
+.hero-orb2{position:absolute;top:30%;left:-10%;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(94,92,230,0.05),transparent 70%);pointer-events:none}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--bdr2);border-radius:99px;padding:6px 14px 6px 8px;font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:32px;background:var(--bg3);position:relative}
+.he-dot{width:20px;height:20px;border-radius:50%;background:var(--gl);border:1px solid rgba(14,207,138,0.2);display:flex;align-items:center;justify-content:center}
+.he-inner{width:7px;height:7px;border-radius:50%;background:var(--g);animation:glow 2s infinite}
+@keyframes glow{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.hero-h1{font-size:clamp(40px,7vw,82px);font-weight:900;letter-spacing:-3px;line-height:.95;margin-bottom:28px;color:var(--txt);position:relative}
+.h1-green{color:var(--g);display:block}
+.h1-dim{color:rgba(255,255,255,0.25);display:block;font-weight:300;font-style:italic;font-size:.72em;letter-spacing:-1px;margin-top:6px}
+.hero-p{font-size:clamp(15px,1.8vw,18px);color:var(--txt2);max-width:500px;margin:0 auto 44px;line-height:1.7;font-weight:400;position:relative}
+.hero-p strong{color:var(--txt);font-weight:600}
+.hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;position:relative}
+.hbtn-p{padding:14px 32px;background:var(--g);color:#000;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:.2px;transition:all .2s;display:flex;align-items:center;gap:8px}
+.hbtn-p:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(14,207,138,0.25)}
+.hbtn-s{padding:14px 28px;background:transparent;color:var(--txt2);border:1px solid var(--bdr2);border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.hbtn-s:hover{color:var(--txt);border-color:var(--bdr3);background:var(--bg3)}
+.hero-trust{font-size:11px;color:var(--txt3);display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;position:relative}
+.ht-dot{width:3px;height:3px;border-radius:50%;background:var(--bdr2)}
+.ht-i{display:flex;align-items:center;gap:5px}
+
+/* MARQUEE */
+.mq-wrap{padding:44px 0;border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);overflow:hidden;position:relative}
+.mq-wrap::before,.mq-wrap::after{content:'';position:absolute;top:0;bottom:0;width:100px;z-index:2;pointer-events:none}
+.mq-wrap::before{left:0;background:linear-gradient(to right,var(--bg),transparent)}
+.mq-wrap::after{right:0;background:linear-gradient(to left,var(--bg),transparent)}
+.mq-track{display:flex;animation:mq 28s linear infinite;width:max-content}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mq-item{display:flex;align-items:center;gap:10px;padding:0 36px;white-space:nowrap}
+.mq-num{font-size:26px;font-weight:900;color:var(--txt);letter-spacing:-1px}
+.mq-txt{font-size:11px;color:var(--txt3);font-weight:600;letter-spacing:.3px;text-transform:uppercase;max-width:76px;line-height:1.4}
+.mq-sep{width:1px;height:28px;background:var(--bdr);flex-shrink:0;margin-left:36px}
+
+/* SECTION */
+.sec{padding:90px 5%;max-width:1100px;margin:0 auto}
+.sf{padding:90px 5%}
+.sc{text-align:center}
+.ey{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;color:var(--g);display:block}
+.sh2{font-size:clamp(28px,4.5vw,50px);font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:14px;color:var(--txt)}
+.sh2 em{color:var(--g);font-style:normal}
+.sp{font-size:15px;color:var(--txt2);max-width:540px;margin:0 auto 56px;line-height:1.75}
+
+/* PROBLEM */
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bdr);border-radius:20px;overflow:hidden;max-width:840px;margin:0 auto}
+.pi{background:var(--bg2);padding:30px 26px}
+.pi-n{font-size:44px;font-weight:900;color:var(--bdr2);letter-spacing:-2px;line-height:1;margin-bottom:10px}
+.pi-t{font-size:15px;font-weight:700;color:var(--txt);margin-bottom:7px;letter-spacing:-.2px}
+.pi-b{font-size:12px;color:var(--txt3);line-height:1.7}
+.pi-tag{display:inline-block;margin-top:12px;padding:3px 9px;border-radius:5px;font-size:9px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;background:var(--rl);color:var(--r)}
+
+/* PRODUCT */
+.prod-layout{display:flex;align-items:flex-start;gap:56px;flex-wrap:wrap}
+.prod-txt{flex:1;min-width:260px}
+.prod-phones{flex:1;min-width:260px;display:flex;gap:14px;justify-content:center}
+.app-pill{display:inline-flex;align-items:center;gap:7px;background:var(--bg3);border:1px solid var(--bdr2);border-radius:99px;padding:5px 13px;font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:22px;letter-spacing:.2px}
+.ap-dot{width:7px;height:7px;border-radius:50%}
+.prod-h2{font-size:clamp(26px,4vw,42px);font-weight:900;letter-spacing:-1.5px;line-height:1.08;margin-bottom:18px;color:var(--txt)}
+.prod-h2 em{color:var(--g);font-style:normal}
+.prod-p{font-size:14px;color:var(--txt2);line-height:1.75;margin-bottom:28px}
+.fl{display:flex;flex-direction:column;gap:14px}
+.fl-i{display:flex;align-items:flex-start;gap:12px}
+.fl-ic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;margin-top:1px}
+.ic-g{background:var(--gl);border:1px solid rgba(14,207,138,0.15)}
+.ic-b{background:var(--bl);border:1px solid rgba(94,92,230,0.15)}
+.ic-a{background:var(--al);border:1px solid rgba(255,159,10,0.15)}
+.ic-r{background:var(--rl);border:1px solid rgba(255,59,92,0.15)}
+.fl-t{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:3px;letter-spacing:-.1px}
+.fl-b2{font-size:11px;color:var(--txt3);line-height:1.6}
+
+/* MINI PHONE */
+.mph{width:158px;background:var(--bg2);border-radius:24px;overflow:hidden;border:1px solid var(--bdr2);flex-shrink:0}
+.mph.off{margin-top:36px}
+.mph-sb{background:var(--bg2);padding:9px 14px 3px;display:flex;justify-content:space-between}
+.mph-sb span{font-size:8px;font-weight:700;color:var(--txt)}
+.mph-bd{padding:9px}
+.mph-lbl{font-size:6px;font-weight:800;color:var(--txt3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:2px}
+.mph-nm{font-size:11px;font-weight:900;color:var(--txt);letter-spacing:-.3px;margin-bottom:7px}
+.mph-pc{background:linear-gradient(135deg,#0a1f17,#061410);border:1px solid rgba(14,207,138,0.18);border-radius:12px;padding:10px}
+.mph-pc-l{font-size:6px;font-weight:800;color:rgba(14,207,138,0.5);letter-spacing:.6px;text-transform:uppercase;margin-bottom:2px}
+.mph-pc-v{font-size:16px;font-weight:900;color:#fff;letter-spacing:-.8px}
+.mph-pc-s{font-size:7px;color:var(--g);font-weight:700;margin-top:2px}
+.mph-gg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-top:6px;background:rgba(255,255,255,0.04);border-radius:7px;overflow:hidden}
+.mph-gc{background:rgba(255,255,255,0.03);padding:5px 3px;text-align:center}
+.mph-gc-v{font-size:9px;font-weight:900;color:#fff}
+.mph-gc-l{font-size:5px;font-weight:700;color:rgba(255,255,255,0.25);margin-top:1px;text-transform:uppercase;letter-spacing:.2px}
+.mph-dc{background:var(--bg3);border:1px solid var(--bdr);border-radius:9px;padding:7px;margin-top:5px}
+.mph-dc-n{font-size:8px;font-weight:800;color:var(--txt)}
+.mph-bar{height:2px;background:var(--bg4);border-radius:99px;margin:3px 0 2px;overflow:hidden}
+.mph-bf{height:100%;border-radius:99px}
+.mph-df{display:flex;justify-content:space-between;font-size:5.5px;font-weight:700}
+.mph-own{background:linear-gradient(135deg,#0a1f17,#061410);border:1px solid rgba(14,207,138,0.18);border-radius:12px;padding:10px;margin-bottom:6px}
+.mph-ol{font-size:5.5px;font-weight:800;color:rgba(14,207,138,0.5);letter-spacing:.5px;text-transform:uppercase;margin-bottom:2px}
+.mph-ot{font-size:10px;font-weight:900;color:#fff;line-height:1.3;letter-spacing:-.2px}
+.mph-ob{height:3px;background:rgba(255,255,255,0.08);border-radius:99px;margin:5px 0 3px;overflow:hidden}
+.mph-of{height:100%;border-radius:99px;background:linear-gradient(90deg,#0aad73,#34d399)}
+.mph-op{font-size:7px;font-weight:800;color:var(--g)}
+.mph-vlt{background:linear-gradient(135deg,#12122e,#0d0d22);border:1px solid rgba(94,92,230,0.2);border-radius:9px;padding:7px;display:flex;gap:5px;align-items:center;margin-bottom:5px}
+.mph-vt{font-size:8px;font-weight:800;color:#818cf8}
+.mph-vs{font-size:6px;color:rgba(94,92,230,0.5);font-weight:600;margin-top:1px}
+.mph-nxt{background:var(--bg3);border:1px solid rgba(255,159,10,0.18);border-radius:9px;padding:7px;display:flex;gap:6px;align-items:center;margin-bottom:5px}
+.mph-nl{font-size:5.5px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.3px}
+.mph-nv{font-size:10px;font-weight:900;color:var(--txt);letter-spacing:-.3px}
+.mph-nd{font-size:6px;font-weight:700;color:var(--a)}
+.mph-nav{display:flex;background:var(--bg2);border-top:1px solid var(--bdr);padding:5px 0 10px}
+.mph-bn{flex:1;text-align:center;font-size:5.5px;font-weight:700;color:var(--txt3);padding:2px 0}
+.mph-bn.on{color:var(--g)}
+
+/* VAULT */
+.vault-2col{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+.vault-card{background:linear-gradient(135deg,#0d0d22,#080812);border:1px solid rgba(94,92,230,0.2);border-radius:22px;padding:26px;position:relative;overflow:hidden}
+.vc-glow{position:absolute;top:-40px;right:-40px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(94,92,230,0.15),transparent 70%);pointer-events:none}
+.vc-top{display:flex;align-items:center;gap:11px;margin-bottom:18px;position:relative}
+.vc-icon{width:42px;height:42px;border-radius:13px;background:var(--bl);border:1px solid rgba(94,92,230,0.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.vc-title{font-size:16px;font-weight:800;color:var(--txt);letter-spacing:-.3px}
+.vc-sub{font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px;font-weight:500}
+.vc-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:14px;position:relative}
+.vcs{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.05);border-radius:10px;padding:9px;text-align:center}
+.vcs-v{font-size:17px;font-weight:900;color:var(--txt);letter-spacing:-.5px}
+.vcs-l{font-size:7px;font-weight:700;color:rgba(255,255,255,0.2);margin-top:2px;text-transform:uppercase;letter-spacing:.3px}
+.rec{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:12px;padding:11px 13px;margin-bottom:7px;display:flex;align-items:center;gap:9px}
+.rec-ico{font-size:16px;flex-shrink:0}
+.rec-inf{flex:1}
+.rec-wk{font-size:12px;font-weight:700;color:var(--txt);letter-spacing:-.1px}
+.rec-dt{font-size:9px;color:rgba(255,255,255,0.25);margin-top:1px}
+.rec-tags{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap}
+.rt{font-size:8px;padding:2px 6px;border-radius:5px;font-weight:700}
+.rt-g{background:rgba(14,207,138,0.1);color:#34D399;border:1px solid rgba(14,207,138,0.12)}
+.rt-b{background:rgba(94,92,230,0.1);color:#818CF8;border:1px solid rgba(94,92,230,0.12)}
+.rt-a{background:rgba(255,159,10,0.1);color:#FCD34D;border:1px solid rgba(255,159,10,0.12)}
+.rec-amt{font-size:13px;font-weight:800;color:var(--g);letter-spacing:-.2px}
+.shield{background:rgba(94,92,230,0.07);border:1px solid rgba(94,92,230,0.14);border-radius:11px;padding:10px 12px;display:flex;align-items:flex-start;gap:8px;position:relative}
+.shield-txt{font-size:11px;font-weight:600;color:rgba(94,92,230,0.8);line-height:1.5}
+
+/* STORY */
+.story-wrap{background:var(--bg2);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr)}
+.story-in{max-width:640px;margin:0 auto;padding:90px 5%;text-align:center}
+.story-q{font-size:clamp(17px,2.5vw,24px);font-weight:500;font-style:italic;color:var(--txt);line-height:1.65;letter-spacing:-.4px;margin-bottom:28px;position:relative}
+.story-q::before{content:'\201C';font-size:72px;color:var(--g);opacity:.15;position:absolute;top:-16px;left:-8px;font-family:Georgia,serif;line-height:1}
+.story-attr{display:flex;align-items:center;justify-content:center;gap:10px}
+.sa-line{width:28px;height:1px;background:var(--bdr2)}
+.sa-name{font-size:12px;font-weight:700;color:var(--txt2);letter-spacing:.2px}
+
+/* PROOF */
+.proof-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;background:var(--bdr);border-radius:20px;overflow:hidden;max-width:880px;margin:0 auto}
+.pc2{background:var(--bg2);padding:26px 22px}
+.pc2-stars{display:flex;gap:3px;margin-bottom:14px}
+.pc2-star{width:11px;height:11px;background:var(--a);border-radius:2px}
+.pc2-q{font-size:13px;color:var(--txt2);line-height:1.7;font-style:italic;margin-bottom:16px}
+.pc2-auth{display:flex;align-items:center;gap:9px}
+.pc2-av{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0}
+.pc2-name{font-size:12px;font-weight:700;color:var(--txt)}
+.pc2-role{font-size:10px;color:var(--txt3);margin-top:1px}
+
+/* PRICING */
+.price-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bdr);border-radius:22px;overflow:hidden;max-width:680px;margin:0 auto}
+.pr{background:var(--bg2);padding:32px 28px;position:relative;overflow:hidden}
+.pr.feat{background:linear-gradient(145deg,#0a1f17,#061410)}
+.pr.feat::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(14,207,138,0.4),transparent)}
+.pr-ey{font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px}
+.pr-type{font-size:17px;font-weight:800;color:var(--txt);letter-spacing:-.4px;margin-bottom:3px}
+.pr-desc{font-size:11px;color:var(--txt3);margin-bottom:20px;line-height:1.5}
+.pr-amt{font-size:38px;font-weight:900;color:var(--txt);letter-spacing:-2px;line-height:1}
+.pr-per{font-size:12px;color:var(--txt3);margin-top:3px;margin-bottom:18px}
+.pr-feats{border-top:1px solid var(--bdr);padding-top:18px}
+.pr-f{display:flex;align-items:flex-start;gap:8px;margin-bottom:9px;font-size:11px;color:var(--txt2);line-height:1.5}
+.pr-ck{width:15px;height:15px;border-radius:4px;background:var(--gl);border:1px solid rgba(14,207,138,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.pr-ck-m{width:5px;height:5px;border-radius:1px;background:var(--g)}
+.pr-save{display:inline-block;background:var(--al);border:1px solid rgba(255,159,10,0.2);border-radius:6px;padding:4px 10px;font-size:9px;font-weight:800;color:var(--a);margin-top:12px;letter-spacing:.2px}
+
+/* CTA */
+.cta{padding:110px 5%;text-align:center;position:relative;overflow:hidden}
+.cta-orb{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(14,207,138,0.05),transparent 70%);pointer-events:none}
+.cta-h{font-size:clamp(34px,6vw,64px);font-weight:900;letter-spacing:-3px;line-height:.95;margin-bottom:18px;color:var(--txt);position:relative}
+.cta-h em{color:var(--g);font-style:normal;display:block}
+.cta-p{font-size:16px;color:var(--txt2);max-width:460px;margin:0 auto 40px;line-height:1.65;position:relative}
+.cta-form{max-width:380px;margin:0 auto 14px;display:flex;gap:8px;position:relative}
+.cta-in{flex:1;padding:13px 15px;background:var(--bg3);border:1px solid var(--bdr2);border-radius:10px;font-size:14px;color:var(--txt);outline:none;font-family:'Inter',sans-serif;font-weight:500;transition:border-color .2s}
+.cta-in:focus{border-color:rgba(14,207,138,0.4)}
+.cta-in::placeholder{color:var(--txt3)}
+.cta-btn{padding:13px 18px;background:var(--g);color:#000;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;transition:all .2s;letter-spacing:.2px}
+.cta-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(14,207,138,0.3)}
+.cta-fine{font-size:11px;color:var(--txt3);position:relative}
+.cta-fine span{color:var(--g);font-weight:700}
+.wl-ok{background:var(--gl);border:1px solid rgba(14,207,138,0.2);border-radius:11px;padding:13px 16px;max-width:380px;margin:10px auto 0;font-size:13px;color:var(--g);font-weight:600;display:none;line-height:1.6;position:relative}
+.wl-ok.on{display:block}
+.wl-er{background:var(--rl);border:1px solid rgba(255,59,92,0.2);border-radius:10px;padding:10px 13px;max-width:380px;margin:8px auto 0;font-size:12px;color:var(--r);font-weight:600;display:none;position:relative}
+.wl-er.on{display:block}
+
+/* FOOTER */
+footer{border-top:1px solid var(--bdr);padding:36px 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;background:var(--bg)}
+.fl2{display:flex;align-items:center;gap:9px}
+.fl2-lm{width:24px;height:24px;background:var(--g);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#000}
+.fl2-t{font-size:14px;font-weight:800;color:var(--txt);letter-spacing:-.4px}
+.fl2-s{font-size:10px;color:var(--txt3);font-weight:500}
+.flinks{display:flex;gap:20px}
+.flink{font-size:11px;color:var(--txt3);font-weight:600;cursor:pointer;text-decoration:none;transition:color .2s}
+.flink:hover{color:var(--txt2)}
+.fcopy{font-size:11px;color:var(--txt3);font-weight:500}
+</style>
+</head>
+<body>
+
+<h2 style="position:absolute;width:1px;height:1px;overflow:hidden">LUNO — Hire-purchase management app for boda and bajaj owners in East Africa. Available in Swahili and English.</h2>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nl">
+    <div class="lm">L</div>
+    <div class="lt">LUNO</div>
+  </div>
+  <div class="nr">
+    <button class="lang-sw on" id="btn-sw" onclick="setLang('sw')">🇹🇿 SW</button>
+    <button class="lang-en" id="btn-en" onclick="setLang('en')">🇬🇧 EN</button>
+    <button class="nlink" onclick="goto('story')" id="n-story">Hadithi</button>
+    <button class="nlink" onclick="goto('product')" id="n-product">Bidhaa</button>
+    <button class="nlink" onclick="goto('pricing')" id="n-pricing">Bei</button>
+    <button class="nbtn" onclick="goto('waitlist')" id="n-cta">Jiandikishe bure</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-orb1"></div><div class="hero-orb2"></div>
+  <div class="hero-eyebrow">
+    <div class="he-dot"><div class="he-inner"></div></div>
+    <span id="h-eyebrow">Upatikanaji wa mapema · Bure kwa watumiaji wa kwanza · 🇹🇿 Imejengwa kwa Afrika Mashariki</span>
+  </div>
+  <h1 class="hero-h1">
+    <span id="h1-l1">Mikataba yako.</span>
+    <span class="h1-green" id="h1-l2">Daima inalipwa.</span>
+    <span class="h1-dim" id="h1-l3">daima inalindwa.</span>
+  </h1>
+  <p class="hero-p" id="hero-p">LUNO inabadilisha daftari. <strong>Wamiliki wanafuatilia malipo, kudhibiti mikataba, na kujenga meli yao.</strong> Madereva wanamiliki safari yao — na kulinda kila malipo na ushahidi uliohifadhiwa.</p>
+  <div class="hero-btns">
+    <button class="hbtn-p" onclick="goto('waitlist')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+      <span id="h-btn1">Pata ufikiaji bure</span>
+    </button>
+    <button class="hbtn-s" onclick="goto('product')" id="h-btn2">Ona bidhaa</button>
+  </div>
+  <div class="hero-trust">
+    <div class="ht-i"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0ECF8A" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span id="ht1">Hifadhi ya ushahidi iliyojengwa ndani</span></div>
+    <div class="ht-dot"></div>
+    <div class="ht-i"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0ECF8A" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span id="ht2">Arifa za malipo za wakati halisi</span></div>
+    <div class="ht-dot"></div>
+    <div class="ht-i" id="ht3">🇹🇿 Kiswahili na Kiingereza</div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq-wrap">
+  <div class="mq-track" id="mq-track">
+    <div class="mq-item"><span class="mq-num">3M+</span><span class="mq-txt" id="mq1">Bodaboda Tanzania</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-num">60%</span><span class="mq-txt" id="mq2">Wanamilikiwa kwa kukodisha</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-num">$0</span><span class="mq-txt" id="mq3">Programu zinazosuluhisha hili leo</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-num">5</span><span class="mq-txt" id="mq4">Nchi za kupanuka</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-num">TZS 0</span><span class="mq-txt" id="mq5">Gharama ya kujiunga sasa</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-num">2</span><span class="mq-txt" id="mq6">Programu. Mfumo mmoja.</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-num">3M+</span><span class="mq-txt">Bodaboda Tanzania</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-num">60%</span><span class="mq-txt">Wanamilikiwa kwa kukodisha</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-num">$0</span><span class="mq-txt">Programu zinazosuluhisha hili leo</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-num">5</span><span class="mq-txt">Nchi za kupanuka</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-num">TZS 0</span><span class="mq-txt">Gharama ya kujiunga sasa</span><div class="mq-sep"></div></div>
+    <div class="mq-item"><span class="mq-num">2</span><span class="mq-txt">Programu. Mfumo mmoja.</span><div class="mq-sep"></div></div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<div class="sf sc" id="problem" style="background:var(--bg2)">
+  <div style="max-width:1000px;margin:0 auto">
+    <span class="ey" id="prob-ey">Tatizo</span>
+    <h2 class="sh2" id="prob-h2">Daftari linakugharimu <em>mamilioni</em></h2>
+    <p class="sp" id="prob-p">Kila wiki Tanzania, Kenya na Uganda — wamiliki wa magari wanapoteza pesa walizozipata.</p>
+    <div class="prob-grid">
+      <div class="pi"><div class="pi-n">01</div><div class="pi-t" id="pi1-t">Daftari linachomeka, kuloweshwa, kupoteza</div><div class="pi-b" id="pi1-b">Miezi ya rekodi za malipo — inaenda kwa dakika moja. Hakuna nakala. Dereva anasema amelipa. Huna ushahidi.</div><div class="pi-tag" id="pi1-tag">Muhimu</div></div>
+      <div class="pi"><div class="pi-n">02</div><div class="pi-t" id="pi2-t">Hati za benki zinafifia ndani ya wiki</div><div class="pi-b" id="pi2-b">Madereva wanalipa benki na kuhifadhi stakabadhi. Miezi mitatu baadaye wino umepotea. Ushahidi umepotea. Ugomvi hauna mshindi.</div><div class="pi-tag" id="pi2-tag">Muhimu</div></div>
+      <div class="pi"><div class="pi-n">03</div><div class="pi-t" id="pi3-t">Madereva hawajui wako wapi</div><div class="pi-b" id="pi3-b">Dereva anafanya kazi miezi 18 bila kujua wiki ngapi zimebaki, kiasi gani wanachodaiwa, au wako karibu kiasi gani na kumiliki gari. Hakuna msukumo.</div><div class="pi-tag" id="pi3-tag">Muhimu</div></div>
+      <div class="pi"><div class="pi-n">04</div><div class="pi-t" id="pi4-t">Wiki moja iliyokosekana inakuwa sita</div><div class="pi-b" id="pi4-b">Wamiliki wenye shughuli husahau kukimbiza. Wakifahamu pengo ni TZS 700,000. Hakuna arifa iliyotumwa. Mfumo ulikosea kimya kimya.</div><div class="pi-tag" id="pi4-tag">Muhimu</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT OWNER -->
+<div class="sec" id="product">
+  <div class="prod-layout">
+    <div class="prod-txt">
+      <div class="app-pill"><div class="ap-dot" style="background:var(--g)"></div><span id="oa-pill">Programu ya Mmiliki</span></div>
+      <h2 class="prod-h2" id="oa-h2">Endesha meli yako<br>kama <em>biashara</em></h2>
+      <p class="prod-p" id="oa-p">Kila mkataba, kila dereva, kila malipo — hai mfukoni mwako. Jua ni nani amelipa, ni nani anadaiwa, na meli yako inastahili kiasi gani. Yote kwenye skrini moja.</p>
+      <div class="fl">
+        <div class="fl-i"><div class="fl-ic ic-g">📊</div><div><div class="fl-t" id="f1-t">Dashibodi ya mkoba wa wakati halisi</div><div class="fl-b2" id="f1-b">Thamani jumla, iliyokusanywa, iliyobaki na madeni — inasasishwa wakati malipo yanaporekodiwa.</div></div></div>
+        <div class="fl-i"><div class="fl-ic ic-a">⏰</div><div><div class="fl-t" id="f2-t">Arifa za tarehe ya malipo zinazojiendesha</div><div class="fl-b2" id="f2-b">Usikie tena kukimbiza kwa mikono. LUNO inakumbusha madereva kabla ya malipo na kukuarifu malipo yakicheleweshwa.</div></div></div>
+        <div class="fl-i"><div class="fl-ic ic-b">🚗</div><div><div class="fl-t" id="f3-t">Rejista kamili ya magari na madereva</div><div class="fl-b2" id="f3-b">Injini, chassis, mwisho wa bima, picha ya pasipoti, NIDA, mdhamini — zote zimehifadhiwa. Hati zinaisha, LUNO inakuonya kwanza.</div></div></div>
+        <div class="fl-i"><div class="fl-ic ic-a">💰</div><div><div class="fl-t" id="f4-t">Kikokotoo cha faida</div><div class="fl-b2" id="f4-b">Ingiza bei ya kununulia gari. Ona mapato ya wiki, thamani ya mkataba, faida halisi na ROI mara moja.</div></div></div>
+      </div>
+    </div>
+    <div class="prod-phones">
+      <div class="mph">
+        <div class="mph-sb"><span>9:41</span><span>●●●●</span></div>
+        <div class="mph-bd">
+          <div class="mph-lbl" id="mph-o-lbl">MMILIKI · LUNO</div>
+          <div class="mph-nm">Ali Mohammed</div>
+          <div class="mph-pc">
+            <div class="mph-pc-l" id="mph-o-pc-l">Thamani ya Mkoba</div>
+            <div class="mph-pc-v">27.3M</div>
+            <div class="mph-pc-s" id="mph-o-pc-s">+54% imekusanywa</div>
+            <div class="mph-gg">
+              <div class="mph-gc"><div class="mph-gc-v">3</div><div class="mph-gc-l" id="mph-o-g1">MAGARI</div></div>
+              <div class="mph-gc"><div class="mph-gc-v" style="color:#FFD60A">1</div><div class="mph-gc-l" id="mph-o-g2">LEO</div></div>
+              <div class="mph-gc"><div class="mph-gc-v" style="color:#FF6B6B">1</div><div class="mph-gc-l" id="mph-o-g3">MADENI</div></div>
+            </div>
+          </div>
+          <div class="mph-dc" style="margin-top:6px">
+            <div class="mph-dc-n">Hassan A. <span style="font-size:5px;background:rgba(14,207,138,0.12);color:#0ECF8A;padding:1px 4px;border-radius:3px;font-weight:800">Bajaj</span></div>
+            <div class="mph-bar"><div class="mph-bf" style="width:68%;background:#0ECF8A"></div></div>
+            <div class="mph-df"><span style="color:#0ECF8A" id="mph-o-d1">Siku 2 zimebaki</span><span style="color:var(--txt3)">88/130</span></div>
+          </div>
+          <div class="mph-dc">
+            <div class="mph-dc-n">Saidi M. <span style="font-size:5px;background:rgba(255,59,92,0.12);color:#FF3B5C;padding:1px 4px;border-radius:3px;font-weight:800" id="mph-o-overdue">Madeni</span></div>
+            <div class="mph-bar"><div class="mph-bf" style="width:30%;background:#FF3B5C"></div></div>
+            <div class="mph-df"><span style="color:#FF3B5C" id="mph-o-d2">Siku 5 madeni</span><span style="color:var(--txt3)">23/78</span></div>
+          </div>
+        </div>
+        <div class="mph-nav">
+          <div class="mph-bn on">⌂</div><div class="mph-bn">🚗</div><div class="mph-bn">+</div><div class="mph-bn">$</div><div class="mph-bn">🔔</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT DRIVER -->
+<div class="sec" style="padding-top:0">
+  <div class="prod-layout" style="flex-direction:row-reverse">
+    <div class="prod-txt">
+      <div class="app-pill"><div class="ap-dot" style="background:var(--b)"></div><span id="da-pill">Programu ya Dereva</span></div>
+      <h2 class="prod-h2" id="da-h2">Kila dereva anastahili kujua<br>yuko <em>karibu kiasi gani</em></h2>
+      <p class="prod-p" id="da-p">Programu ya dereva inabadilisha mkataba kuwa safari. Madereva wanaona wiki ngapi zimebaki, kiasi wanachopaswa kulipa, na wako karibu kiasi gani na mstari wa mwisho — kila siku moja.</p>
+      <div class="fl">
+        <div class="fl-i"><div class="fl-ic ic-g">🏁</div><div><div class="fl-t" id="d1-t">Hesabu ya nyuma ya umiliki</div><div class="fl-b2" id="d1-b">Kizuizi cha maendeleo hai, wiki zilizobaki, siku hadi malipo inayofuata. Gari inayokuwa lao inaonekana kila wakati wanaifungua programu.</div></div></div>
+        <div class="fl-i"><div class="fl-ic ic-b">🔒</div><div><div class="fl-t" id="d2-t">Hifadhi ya ushahidi — imehifadhiwa milele</div><div class="fl-b2" id="d2-b">Madereva wapakia picha za M-Pesa, hati za benki, stakabadhi za pesa taslimu. LUNO inazifunga kila moja na GPS na muda. Hati za benki zinafifia. LUNO haifipi kamwe.</div></div></div>
+        <div class="fl-i"><div class="fl-ic ic-r">🛡️</div><div><div class="fl-t" id="d3-t">Ulinzi wa ugomvi</div><div class="fl-b2" id="d3-b">Ikiwa mmiliki atapinga malipo, dereva anagusa mara moja na kuonyesha stakabadhi 88 zilizofungwa na muda. Mguso mmoja unamaliza hoja.</div></div></div>
+      </div>
+    </div>
+    <div class="prod-phones">
+      <div class="mph">
+        <div class="mph-sb"><span>9:41</span><span>●●●●</span></div>
+        <div class="mph-bd">
+          <div class="mph-lbl" id="mph-d-lbl">DEREVA · LUNO</div>
+          <div class="mph-nm">Hassan Abdallah</div>
+          <div class="mph-own">
+            <div class="mph-ol" id="mph-d-ol">Safari yako ya umiliki</div>
+            <div class="mph-ot" id="mph-d-ot">Bajaj RE inakuwa<br>yako!</div>
+            <div class="mph-ob"><div class="mph-of" style="width:68%"></div></div>
+            <div class="mph-op" id="mph-d-pct">68% · Wiki 42 zimebaki</div>
+          </div>
+          <div class="mph-nxt">
+            <div style="font-size:13px">⏰</div>
+            <div>
+              <div class="mph-nl" id="mph-d-nl">Malipo yanayokuja</div>
+              <div class="mph-nv">TZS 210,000</div>
+              <div class="mph-nd" id="mph-d-nd">Siku 2 zimebaki</div>
+            </div>
+          </div>
+          <div class="mph-vlt">
+            <div style="font-size:13px">🔒</div>
+            <div>
+              <div class="mph-vt" id="mph-d-vt">Hifadhi ya Ushahidi</div>
+              <div class="mph-vs" id="mph-d-vs">Risiti 88 · Uko salama</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+            <div style="background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:6px;text-align:center">
+              <div style="font-size:10px;font-weight:900;color:var(--g)">18.5M</div>
+              <div style="font-size:5px;color:var(--txt3);font-weight:700;text-transform:uppercase;margin-top:1px" id="mph-d-paid">Iliyolipwa</div>
+            </div>
+            <div style="background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:6px;text-align:center">
+              <div style="font-size:10px;font-weight:900;color:var(--txt)">8.8M</div>
+              <div style="font-size:5px;color:var(--txt3);font-weight:700;text-transform:uppercase;margin-top:1px" id="mph-d-rem">Iliyobaki</div>
+            </div>
+          </div>
+        </div>
+        <div class="mph-nav">
+          <div class="mph-bn on">⌂</div><div class="mph-bn">🔒</div><div class="mph-bn">+</div><div class="mph-bn">🔔</div><div class="mph-bn">🛡</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VAULT -->
+<div class="sf" id="vault" style="background:var(--bg2)">
+  <div style="max-width:960px;margin:0 auto">
+    <div class="sc" style="margin-bottom:52px">
+      <span class="ey" id="vault-ey">Hifadhi ya ushahidi</span>
+      <h2 class="sh2" id="vault-h2">Hati za benki zinafifia.<br><em>LUNO haifipi kamwe.</em></h2>
+      <p class="sp" id="vault-p">Hii ndiyo kipengele kinachobadilisha kila kitu kwa madereva. Kila malipo yamefungwa na GPS, muda na tarehe. Inashindana na ugomvi. Milele.</p>
+    </div>
+    <div class="vault-2col">
+      <div class="vault-card">
+        <div class="vc-glow"></div>
+        <div class="vc-top">
+          <div class="vc-icon">🔒</div>
+          <div><div class="vc-title" id="vc-title">Hifadhi ya Ushahidi</div><div class="vc-sub" id="vc-sub">Uthibitisho wako wa malipo — umefungwa na muda</div></div>
+        </div>
+        <div class="vc-stats">
+          <div class="vcs"><div class="vcs-v" style="color:#34D399">88</div><div class="vcs-l" id="vcs1">Zilihifadhiwa</div></div>
+          <div class="vcs"><div class="vcs-v" style="color:#818CF8">88</div><div class="vcs-l" id="vcs2">Zilithibitishwa</div></div>
+          <div class="vcs"><div class="vcs-v">0</div><div class="vcs-l" id="vcs3">Zilizopingwa</div></div>
+        </div>
+        <div class="rec">
+          <div class="rec-ico">📱</div>
+          <div class="rec-inf">
+            <div class="rec-wk" id="rec1-wk">Wiki ya 88</div>
+            <div class="rec-dt">22 Apr 2026 · 14:32 · M-Pesa</div>
+            <div class="rec-tags">
+              <div class="rt rt-b" id="rec1-t1">📱 Picha ya M-Pesa</div>
+              <div class="rt rt-g" id="rec1-t2">✓ Mmiliki alithibitisha</div>
+              <div class="rt rt-b" id="rec1-t3">📍 GPS</div>
+            </div>
+          </div>
+          <div class="rec-amt">TZS 210k</div>
+        </div>
+        <div class="rec">
+          <div class="rec-ico">🏦</div>
+          <div class="rec-inf">
+            <div class="rec-wk" id="rec2-wk">Wiki ya 85 — Benki</div>
+            <div class="rec-dt">3 Apr 2026 · 17:45 · NMB</div>
+            <div class="rec-tags">
+              <div class="rt rt-a" id="rec2-t1">🏦 Picha ya hati imehifadhiwa</div>
+              <div class="rt rt-b" id="rec2-t2">📍 GPS: Ilala</div>
+            </div>
+          </div>
+          <div class="rec-amt">TZS 210k</div>
+        </div>
+        <div class="shield">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818CF8" stroke-width="2.5" style="flex-shrink:0;margin-top:1px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <div class="shield-txt" id="shield-txt">Kila stakabadhi imefungwa na muda, GPS na tarehe wakati inapopakuliwa. Haiwezi kubadilishwa au kufutwa. Na mtu yeyote.</div>
+        </div>
+      </div>
+      <div>
+        <div style="margin-bottom:28px">
+          <div style="font-size:12px;font-weight:700;color:var(--g);letter-spacing:.3px;text-transform:uppercase;margin-bottom:9px" id="why-title">Kwa nini hii ni muhimu</div>
+          <p style="font-size:14px;color:var(--txt2);line-height:1.8" id="why-body">Tanzania, Kenya na Uganda — migogoro kati ya wamiliki na madereva ni ya kawaida. Dereva anasema amelipa. Mmiliki hana rekodi. Benki haina nia na tatizo lao. Hakuna mfumo. Hakuna ukweli.<br><br>LUNO inampa dereva silaha ambayo hakuna mtu anayeweza kuiondoa — ushahidi uliofungwa na muda wa kila malipo waliyofanya.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:13px">
+          <div style="display:flex;gap:11px;align-items:flex-start">
+            <div style="width:34px;height:34px;border-radius:10px;background:var(--gl);border:1px solid rgba(14,207,138,0.15);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">📱</div>
+            <div><div style="font-size:12px;font-weight:700;color:var(--txt);margin-bottom:3px" id="vault-f1-t">Picha za M-Pesa na Tigo</div><div style="font-size:11px;color:var(--txt3);line-height:1.6" id="vault-f1-b">Pakia moja kwa moja kutoka gallery yako ya simu. Imehifadhiwa mara moja na metadata.</div></div>
+          </div>
+          <div style="display:flex;gap:11px;align-items:flex-start">
+            <div style="width:34px;height:34px;border-radius:10px;background:var(--al);border:1px solid rgba(255,159,10,0.15);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">🏦</div>
+            <div><div style="font-size:12px;font-weight:700;color:var(--txt);margin-bottom:3px" id="vault-f2-t">Hati za benki — haziifipi tena</div><div style="font-size:11px;color:var(--txt3);line-height:1.6" id="vault-f2-b">Piga picha ya hati mara tu unapoondoka benki. Nakala ya kidijitali haiifii, haikunyaa, haipotei.</div></div>
+          </div>
+          <div style="display:flex;gap:11px;align-items:flex-start">
+            <div style="width:34px;height:34px;border-radius:10px;background:var(--bl);border:1px solid rgba(94,92,230,0.15);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">🛡️</div>
+            <div><div style="font-size:12px;font-weight:700;color:var(--txt);margin-bottom:3px" id="vault-f3-t">Ulinzi wa ugomvi wa mguso mmoja</div><div style="font-size:11px;color:var(--txt3);line-height:1.6" id="vault-f3-b">Mmiliki anapinga malipo yako? Gusa mara moja. Onyesha ushahidi kamili uliofungwa wa kila malipo uliyofanya.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STORY -->
+<div class="story-wrap" id="story">
+  <div class="story-in">
+    <span class="ey" id="story-ey">Kwa nini jina LUNO</span>
+    <div class="story-q" id="story-q">Katika kijiji kimoja Afrika Mashariki miaka ya 1990, kijana mmoja aliyeitwa Luno alifanya lisilo na kufikiria. Alipinga mambo ambayo wengine wote waliogopa tu. Hakuna kilichomtokea. Na tangu siku hiyo, watu waliuliza: "Lakini Luno angesema nini?"</div>
+    <div class="story-attr">
+      <div class="sa-line"></div>
+      <div class="sa-name" id="story-attr">LUNO inapinga daftari. Ugomvi. Kimya. Njia ya zamani.</div>
+      <div class="sa-line"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROOF -->
+<div class="sf sc" id="proof" style="background:var(--bg)">
+  <div style="max-width:960px;margin:0 auto">
+    <span class="ey" id="proof-ey">Watumiaji wa awali</span>
+    <h2 class="sh2" style="margin-bottom:14px" id="proof-h2">Watu waliokwisha kuona LUNO<br>hawawezi kurudi nyuma</h2>
+    <p class="sp" id="proof-p">Hizi ni hadithi za kweli kutoka kwa wamiliki wa magari na madereva Tanzania.</p>
+    <div class="proof-grid">
+      <div class="pc2">
+        <div class="pc2-stars"><div class="pc2-star"></div><div class="pc2-star"></div><div class="pc2-star"></div><div class="pc2-star"></div><div class="pc2-star"></div></div>
+        <div class="pc2-q" id="t1-q">"Nilikuwa natumia daftari. Siku moja liliungua. Miezi 8 ya malipo yalipotea. LUNO ingehifadhi kila kitu."</div>
+        <div class="pc2-auth"><div class="pc2-av" style="background:var(--gl);color:var(--g)">JK</div><div><div class="pc2-name">Juma Kimaro</div><div class="pc2-role" id="t1-role">Mmiliki wa Bajaj · Dar es Salaam</div></div></div>
+      </div>
+      <div class="pc2">
+        <div class="pc2-stars"><div class="pc2-star"></div><div class="pc2-star"></div><div class="pc2-star"></div><div class="pc2-star"></div><div class="pc2-star"></div></div>
+        <div class="pc2-q" id="t2-q">"Sikujua wiki ngapi zimebaki. Sasa ninaamka na kuona hasa — wiki 42 hadi kumiliki boda langu. Inanihamasisha kila asubuhi."</div>
+        <div class="pc2-auth"><div class="pc2-av" style="background:var(--bl);color:#818CF8">HM</div><div><div class="pc2-name">Hassan Mrisho</div><div class="pc2-role" id="t2-role">Dereva wa bodaboda · Arusha</div></div></div>
+      </div>
+      <div class="pc2">
+        <div class="pc2-stars"><div class="pc2-star"></div><div class="pc2-star"></div><div class="pc2-star"></div><div class="pc2-star"></div><div class="pc2-star"></div></div>
+        <div class="pc2-q" id="t3-q">"Nilikuwa na mgogoro na dereva wangu kila mwezi. LUNO imemalizisha hilo kabisa. Ushahidi uko hapo, hakuna hoja."</div>
+        <div class="pc2-auth"><div class="pc2-av" style="background:var(--al);color:var(--a)">AM</div><div><div class="pc2-name">Amina Mwanga</div><div class="pc2-role" id="t3-role">Mmiliki wa meli · Mwanza</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div class="sf sc" id="pricing" style="background:var(--bg2)">
+  <div style="max-width:760px;margin:0 auto">
+    <span class="ey" id="price-ey">Bei</span>
+    <h2 class="sh2" id="price-h2">Bei rahisi.<br><em>Imejengwa kwa Afrika Mashariki.</em></h2>
+    <p class="sp" id="price-p">Watumiaji wa awali wanapata ufikiaji kamili bure. Baada ya hapo — malipo ya wiki moja kutoka kwa dereva yoyote inashughulikia mwezi wako wote kwenye LUNO.</p>
+    <div class="price-grid">
+      <div class="pr">
+        <div class="pr-ey" style="color:var(--txt3)" id="pr1-ey">Bure · Sasa hivi</div>
+        <div class="pr-type" id="pr1-type">Ufikiaji wa mapema</div>
+        <div class="pr-desc" id="pr1-desc">Ufikiaji kamili kwa watumiaji wote wa mapema — bila tarehe ya kumalizika iliyotangazwa</div>
+        <div class="pr-amt">TZS 0</div>
+        <div class="pr-per" id="pr1-per">milele, kwa sasa</div>
+        <div class="pr-feats">
+          <div class="pr-f"><div class="pr-ck"><div class="pr-ck-m"></div></div><span id="prf1-1">Magari na madereva bila kikomo</span></div>
+          <div class="pr-f"><div class="pr-ck"><div class="pr-ck-m"></div></div><span id="prf1-2">Hifadhi kamili ya ushahidi</span></div>
+          <div class="pr-f"><div class="pr-ck"><div class="pr-ck-m"></div></div><span id="prf1-3">Vipengele vyote vimefunguliwa</span></div>
+          <div class="pr-f"><div class="pr-ck"><div class="pr-ck-m"></div></div><span id="prf1-4">Kiswahili na Kiingereza</span></div>
+          <div class="pr-f"><div class="pr-ck"><div class="pr-ck-m"></div></div><span id="prf1-5">Programu ya Mmiliki + Dereva</span></div>
+        </div>
+      </div>
+      <div class="pr feat">
+        <div class="pr-ey" style="color:var(--g)" id="pr2-ey">Inakuja hivi karibuni · Baada ya uzinduzi</div>
+        <div class="pr-type" id="pr2-type">Kwa kila gari</div>
+        <div class="pr-desc" id="pr2-desc">Kwa kila gari, kwa kila mwezi — baada ya kipindi cha ufikiaji bure</div>
+        <div class="pr-amt">TZS 2k</div>
+        <div class="pr-per" id="pr2-per">boda · TZS 4k kwa bajaj</div>
+        <div class="pr-feats">
+          <div class="pr-f"><div class="pr-ck"><div class="pr-ck-m"></div></div><span id="prf2-1">Chini ya ⅓ ya malipo moja ya wiki</span></div>
+          <div class="pr-f"><div class="pr-ck"><div class="pr-ck-m"></div></div><span id="prf2-2">Kila kitu katika mpango wa bure</span></div>
+          <div class="pr-f"><div class="pr-ck"><div class="pr-ck-m"></div></div><span id="prf2-3">Msaada wa kipaumbele</span></div>
+          <div class="pr-f"><div class="pr-ck"><div class="pr-ck-m"></div></div><span id="prf2-4">Mpango wa mwaka unapatikana</span></div>
+        </div>
+        <div class="pr-save" id="pr-save">Lipa kwa mwaka · okoa 20%</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="cta" id="waitlist">
+  <div class="cta-orb"></div>
+  <span class="ey" style="display:block;margin-bottom:18px" id="cta-ey">Pata ufikiaji wa mapema</span>
+  <h2 class="cta-h">
+    <span id="cta-h1">Kuwa wa kwanza.</span>
+    <em id="cta-h2">Lipa sifuri.</em>
+  </h2>
+  <p class="cta-p" id="cta-p">Ingiza nambari yako ya simu. LUNO itakapozinduliwa katika mji wako, utapata ufikiaji kabla ya wengine wote — bila malipo kabisa.</p>
+  <div class="cta-form">
+    <input type="tel" class="cta-in" id="wl-phone" placeholder="07XX XXX XXX">
+    <button class="cta-btn" onclick="joinWL()" id="cta-btn">Jiunge bure →</button>
+  </div>
+  <div class="wl-ok" id="wl-ok"></div>
+  <div class="wl-er" id="wl-er"></div>
+  <p class="cta-fine" style="margin-top:14px" id="cta-fine">🔒 Faragha. Hakuna barua taka. <span>Kamwe.</span> · 🇹🇿 Tanzania kwanza, kisha Afrika Mashariki</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fl2">
+    <div class="fl2-lm">L</div>
+    <div><div class="fl2-t">LUNO</div><div class="fl2-s" id="foot-sub">Imejengwa Dar es Salaam, Tanzania · 2026</div></div>
+  </div>
+  <div class="flinks">
+    <a class="flink" href="#" id="f-privacy">Faragha</a>
+    <a class="flink" href="#" id="f-contact">Wasiliana</a>
+    <a class="flink" href="#" onclick="setLang('en')">English</a>
+  </div>
+  <div class="fcopy" id="f-copy">© 2026 LUNO. Haki zote zimehifadhiwa.</div>
+</footer>
+
+<script>
+const T={
+sw:{
+  hEyebrow:'Upatikanaji wa mapema · Bure kwa watumiaji wa kwanza · 🇹🇿 Imejengwa kwa Afrika Mashariki',
+  h1l1:'Mikataba yako.',h1l2:'Daima inalipwa.',h1l3:'daima inalindwa.',
+  heroP:'LUNO inabadilisha daftari. <strong>Wamiliki wanafuatilia malipo, kudhibiti mikataba, na kujenga meli yao.</strong> Madereva wanamiliki safari yao — na kulinda kila malipo na ushahidi uliohifadhiwa.',
+  hBtn1:'Pata ufikiaji bure',hBtn2:'Ona bidhaa',
+  ht1:'Hifadhi ya ushahidi iliyojengwa ndani',ht2:'Arifa za malipo za wakati halisi',ht3:'🇹🇿 Kiswahili na Kiingereza',
+  mq1:'Bodaboda Tanzania',mq2:'Wanamilikiwa kwa kukodisha',mq3:'Programu zinazosuluhisha hili leo',mq4:'Nchi za kupanuka',mq5:'Gharama ya kujiunga sasa',mq6:'Programu. Mfumo mmoja.',
+  probEy:'Tatizo',probH2:'Daftari linakugharimu <em>mamilioni</em>',probP:'Kila wiki Tanzania, Kenya na Uganda — wamiliki wa magari wanapoteza pesa walizozipata.',
+  pi1t:'Daftari linachomeka, kuloweshwa, kupoteza',pi1b:'Miezi ya rekodi za malipo — inaenda kwa dakika moja. Hakuna nakala. Dereva anasema amelipa. Huna ushahidi.',pi1tag:'Muhimu',
+  pi2t:'Hati za benki zinafifia ndani ya wiki',pi2b:'Madereva wanalipa benki na kuhifadhi stakabadhi. Miezi mitatu baadaye wino umepotea. Ushahidi umepotea. Ugomvi hauna mshindi.',pi2tag:'Muhimu',
+  pi3t:'Madereva hawajui wako wapi',pi3b:'Dereva anafanya kazi miezi 18 bila kujua wiki ngapi zimebaki. Hakuna msukumo. Hakuna uwazi.',pi3tag:'Muhimu',
+  pi4t:'Wiki moja iliyokosekana inakuwa sita',pi4b:'Wamiliki wenye shughuli husahau kukimbiza. Wakifahamu pengo ni TZS 700,000. Mfumo ulikosea kimya kimya.',pi4tag:'Muhimu',
+  oaPill:'Programu ya Mmiliki',oaH2:'Endesha meli yako<br>kama <em>biashara</em>',
+  oaP:'Kila mkataba, kila dereva, kila malipo — hai mfukoni mwako. Jua ni nani amelipa, ni nani anadaiwa. Yote kwenye skrini moja.',
+  f1t:'Dashibodi ya mkoba wa wakati halisi',f1b:'Thamani jumla, iliyokusanywa, iliyobaki na madeni — inasasishwa wakati malipo yanaporekodiwa.',
+  f2t:'Arifa za tarehe ya malipo zinazojiendesha',f2b:'Usikie tena kukimbiza kwa mikono. LUNO inakumbusha madereva na kukuarifu malipo yakicheleweshwa.',
+  f3t:'Rejista kamili ya magari na madereva',f3b:'Injini, chassis, mwisho wa bima, picha ya pasipoti, NIDA, mdhamini — zote zimehifadhiwa.',
+  f4t:'Kikokotoo cha faida',f4b:'Ingiza bei ya kununulia gari. Ona mapato ya wiki, thamani ya mkataba, faida halisi na ROI mara moja.',
+  mphOLbl:'MMILIKI · LUNO',mphOPcl:'Thamani ya Mkoba',mphOPcs:'+54% imekusanywa',mphOG1:'MAGARI',mphOG2:'LEO',mphOG3:'MADENI',mphOD1:'Siku 2 zimebaki',mphOD2:'Siku 5 madeni',mphOOverdue:'Madeni',
+  daPill:'Programu ya Dereva',daH2:'Kila dereva anastahili kujua<br>yuko <em>karibu kiasi gani</em>',
+  daP:'Programu ya dereva inabadilisha mkataba kuwa safari. Madereva wanaona wiki ngapi zimebaki na wako karibu kiasi gani na mstari wa mwisho — kila siku moja.',
+  d1t:'Hesabu ya nyuma ya umiliki',d1b:'Kizuizi cha maendeleo hai, wiki zilizobaki. Gari inayokuwa lao inaonekana kila wakati wanaifungua programu.',
+  d2t:'Hifadhi ya ushahidi — imehifadhiwa milele',d2b:'Madereva wapakia picha za M-Pesa, hati za benki. LUNO inazifunga na GPS na muda. Hati za benki zinafifia. LUNO haifipi kamwe.',
+  d3t:'Ulinzi wa ugomvi',d3b:'Ikiwa mmiliki atapinga malipo, dereva anagusa mara moja na kuonyesha stakabadhi 88 zilizofungwa. Mguso mmoja unamaliza hoja.',
+  mphDLbl:'DEREVA · LUNO',mphDOl:'Safari yako ya umiliki',mphDOt:'Bajaj RE inakuwa\nyako!',mphDPct:'68% · Wiki 42 zimebaki',mphDNl:'Malipo yanayokuja',mphDNd:'Siku 2 zimebaki',mphDVt:'Hifadhi ya Ushahidi',mphDVs:'Risiti 88 · Uko salama',mphDPaid:'Iliyolipwa',mphDRem:'Iliyobaki',
+  vaultEy:'Hifadhi ya ushahidi',vaultH2:'Hati za benki zinafifia.<br><em>LUNO haifipi kamwe.</em>',vaultP:'Hii ndiyo kipengele kinachobadilisha kila kitu kwa madereva. Kila malipo yamefungwa na GPS, muda na tarehe. Inashindana na ugomvi. Milele.',
+  vcTitle:'Hifadhi ya Ushahidi',vcSub:'Uthibitisho wako wa malipo — umefungwa na muda',vcs1:'Zilihifadhiwa',vcs2:'Zilithibitishwa',vcs3:'Zilizopingwa',
+  rec1Wk:'Wiki ya 88',rec1T1:'📱 Picha ya M-Pesa',rec1T2:'✓ Mmiliki alithibitisha',rec1T3:'📍 GPS',rec2Wk:'Wiki ya 85 — Benki',rec2T1:'🏦 Picha ya hati imehifadhiwa',rec2T2:'📍 GPS: Ilala',
+  shieldTxt:'Kila stakabadhi imefungwa na muda, GPS na tarehe wakati inapopakuliwa. Haiwezi kubadilishwa au kufutwa. Na mtu yeyote.',
+  whyTitle:'Kwa nini hii ni muhimu',whyBody:'Tanzania, Kenya na Uganda — migogoro kati ya wamiliki na madereva ni ya kawaida. Dereva anasema amelipa. Mmiliki hana rekodi. Benki haina nia na tatizo lao. LUNO inampa dereva silaha ambayo hakuna mtu anayeweza kuiondoa.',
+  vf1t:'Picha za M-Pesa na Tigo',vf1b:'Pakia moja kwa moja kutoka gallery yako ya simu. Imehifadhiwa mara moja na metadata.',
+  vf2t:'Hati za benki — haziifipi tena',vf2b:'Piga picha ya hati mara tu unapoondoka benki. Nakala ya kidijitali haiifii, haikunyaa, haipotei.',
+  vf3t:'Ulinzi wa ugomvi wa mguso mmoja',vf3b:'Mmiliki anapinga malipo yako? Gusa mara moja. Onyesha ushahidi kamili uliofungwa wa kila malipo uliyofanya.',
+  storyEy:'Kwa nini jina LUNO',storyQ:'Katika kijiji kimoja Afrika Mashariki miaka ya 1990, kijana mmoja aliyeitwa Luno alifanya lisilo na kufikiria. Alipinga mambo ambayo wengine wote waliogopa tu. Hakuna kilichomtokea. Na tangu siku hiyo, watu waliuliza: "Lakini Luno angesema nini?"',
+  storyAttr:'LUNO inapinga daftari. Ugomvi. Kimya. Njia ya zamani.',
+  proofEy:'Watumiaji wa awali',proofH2:'Watu waliokwisha kuona LUNO<br>hawawezi kurudi nyuma',proofP:'Hizi ni hadithi za kweli kutoka kwa wamiliki wa magari na madereva Tanzania.',
+  t1q:'"Nilikuwa natumia daftari. Siku moja liliungua. Miezi 8 ya malipo yalipotea. LUNO ingehifadhi kila kitu."',t1role:'Mmiliki wa Bajaj · Dar es Salaam',
+  t2q:'"Sikujua wiki ngapi zimebaki. Sasa ninaamka na kuona hasa — wiki 42 hadi kumiliki boda langu. Inanihamasisha kila asubuhi."',t2role:'Dereva wa bodaboda · Arusha',
+  t3q:'"Nilikuwa na mgogoro na dereva wangu kila mwezi. LUNO imemalizisha hilo kabisa. Ushahidi uko hapo, hakuna hoja."',t3role:'Mmiliki wa meli · Mwanza',
+  priceEy:'Bei',priceH2:'Bei rahisi.<br><em>Imejengwa kwa Afrika Mashariki.</em>',priceP:'Watumiaji wa awali wanapata ufikiaji kamili bure. Baada ya hapo — malipo ya wiki moja kutoka kwa dereva yoyote inashughulikia mwezi wako wote kwenye LUNO.',
+  pr1ey:'Bure · Sasa hivi',pr1type:'Ufikiaji wa mapema',pr1desc:'Ufikiaji kamili kwa watumiaji wote wa mapema — bila tarehe ya kumalizika iliyotangazwa',pr1per:'milele, kwa sasa',
+  prf11:'Magari na madereva bila kikomo',prf12:'Hifadhi kamili ya ushahidi',prf13:'Vipengele vyote vimefunguliwa',prf14:'Kiswahili na Kiingereza',prf15:'Programu ya Mmiliki + Dereva',
+  pr2ey:'Inakuja hivi karibuni · Baada ya uzinduzi',pr2type:'Kwa kila gari',pr2desc:'Kwa kila gari, kwa kila mwezi — baada ya kipindi cha ufikiaji bure',pr2per:'boda · TZS 4k kwa bajaj',
+  prf21:'Chini ya ⅓ ya malipo moja ya wiki',prf22:'Kila kitu katika mpango wa bure',prf23:'Msaada wa kipaumbele',prf24:'Mpango wa mwaka unapatikana',prSave:'Lipa kwa mwaka · okoa 20%',
+  ctaEy:'Pata ufikiaji wa mapema',ctaH1:'Kuwa wa kwanza.',ctaH2:'Lipa sifuri.',ctaP:'Ingiza nambari yako ya simu. LUNO itakapozinduliwa katika mji wako, utapata ufikiaji kabla ya wengine wote — bila malipo kabisa.',
+  ctaBtn:'Jiunge bure →',ctaFine:'🔒 Faragha. Hakuna barua taka. <span>Kamwe.</span> · 🇹🇿 Tanzania kwanza, kisha Afrika Mashariki',
+  nStory:'Hadithi',nProduct:'Bidhaa',nPricing:'Bei',nCta:'Jiandikishe bure',
+  footSub:'Imejengwa Dar es Salaam, Tanzania · 2026',fPrivacy:'Faragha',fContact:'Wasiliana',fCopy:'© 2026 LUNO. Haki zote zimehifadhiwa.',
+  wlOk:'🎉 Umefanikiwa! Tutawasiliana nawe kwa nambari yako LUNO itakapozinduliwa katika mji wako. Mwambie mmiliki mwenzako — atakushukuru.',
+  wlErr:'Tafadhali ingiza nambari sahihi ya simu (07XX XXX XXX).',
+},
+en:{
+  hEyebrow:'Early access · Free for first users · 🇹🇿 Built for East Africa',
+  h1l1:'Your contracts.',h1l2:'Always paid.',h1l3:'always protected.',
+  heroP:'LUNO replaces the notebook. <strong>Owners track payments, manage contracts, and build their fleet.</strong> Drivers own their journey — and protect every payment with sealed evidence.',
+  hBtn1:'Get free access',hBtn2:'See the product',
+  ht1:'Evidence vault built in',ht2:'Real-time payment alerts',ht3:'🇹🇿 Swahili & English',
+  mq1:'Bodaboda in Tanzania',mq2:'Owned via hire-purchase',mq3:'Apps solving this today',mq4:'Countries to expand into',mq5:'Cost to join now',mq6:'Apps. One system.',
+  probEy:'The problem',probH2:'The notebook is <em>costing you millions</em>',probP:'Every week across Tanzania, Kenya and Uganda — vehicle owners lose money they already earned.',
+  pi1t:'Notebooks burn, flood, disappear',pi1b:'Months of payment records — gone in a moment. No backup. Driver says they paid. You have nothing to prove otherwise.',pi1tag:'Critical',
+  pi2t:'Bank slips fade within weeks',pi2b:'Drivers pay at the bank and keep the slip. Three months later the ink is gone. Evidence is gone. The argument has no winner.',pi2tag:'Critical',
+  pi3t:"Drivers never know where they stand",pi3b:'A driver works 18 months with no idea how many weeks remain. No motivation. No clarity.',pi3tag:'Critical',
+  pi4t:'One missed week becomes six',pi4b:'Busy owners forget to chase. By the time they notice the gap it\'s TZS 700,000. No alert was sent. The system failed silently.',pi4tag:'Critical',
+  oaPill:'Owner App',oaH2:'Run your fleet<br>like a <em>business</em>',
+  oaP:'Every contract, every driver, every payment — live in your pocket. Know who paid, who owes. All in one screen.',
+  f1t:'Live portfolio dashboard',f1b:'Total value, collected, remaining and overdue — updated the moment a payment is recorded.',
+  f2t:'Automatic due date alerts',f2b:"Never chase manually again. LUNO reminds drivers before payment is due and alerts you the moment it's late.",
+  f3t:'Full vehicle & driver registry',f3b:'Engine, chassis, insurance expiry, passport photo, NIDA, guarantor — all stored. Documents expire, LUNO warns you first.',
+  f4t:'Profit calculator',f4b:'Enter vehicle purchase price. See weekly income, total contract value, net profit and ROI instantly.',
+  mphOLbl:'OWNER · LUNO',mphOPcl:'Portfolio Value',mphOPcs:'+54% collected',mphOG1:'VEHICLES',mphOG2:'TODAY',mphOG3:'OVERDUE',mphOD1:'2 days left',mphOD2:'5 days overdue',mphOOverdue:'Overdue',
+  daPill:'Driver App',daH2:'Every driver deserves to know<br>how <em>close</em> they are',
+  daP:'The driver app turns a contract into a journey. Drivers see exactly how many weeks remain and how close they are to the finish line — every single day.',
+  d1t:'Ownership countdown',d1b:'Live progress bar, weeks remaining. The vehicle becoming theirs is visible every time they open the app.',
+  d2t:'Evidence vault — sealed forever',d2b:'Drivers upload M-Pesa screenshots, bank slips. LUNO seals each with GPS and timestamp. Bank slips fade. LUNO never does.',
+  d3t:'Dispute defence',d3b:"If an owner disputes a payment, the driver taps once and reveals 88 sealed receipts. One tap ends the argument.",
+  mphDLbl:'DRIVER · LUNO',mphDOl:'Your ownership journey',mphDOt:'Bajaj RE is becoming\nyours!',mphDPct:'68% · 42 weeks left',mphDNl:'Next payment due',mphDNd:'2 days left',mphDVt:'Evidence Vault',mphDVs:'88 receipts · You are safe',mphDPaid:'Paid',mphDRem:'Remaining',
+  vaultEy:'Evidence vault',vaultH2:'Bank slips fade.<br><em>LUNO never does.</em>',vaultP:'This is the feature that changes everything for drivers. Every payment sealed with GPS, timestamp and date. Dispute-proof. Forever.',
+  vcTitle:'Evidence Vault',vcSub:'Your payment proof — sealed with timestamp',vcs1:'Saved',vcs2:'Verified',vcs3:'Disputed',
+  rec1Wk:'Week 88',rec1T1:'📱 M-Pesa screenshot',rec1T2:'✓ Owner confirmed',rec1T3:'📍 GPS',rec2Wk:'Week 85 — Bank',rec2T1:'🏦 Bank slip saved',rec2T2:'📍 GPS: Ilala',
+  shieldTxt:'Every receipt is sealed with timestamp, GPS and date the moment it is uploaded. It cannot be altered or deleted. By anyone.',
+  whyTitle:'Why this matters',whyBody:'In Tanzania, Kenya and Uganda — disputes between owners and drivers are common. Driver says they paid. Owner has no record. Bank has no interest. There is no system. There is no truth.<br><br>LUNO gives drivers sealed, timestamped evidence of every payment they ever made.',
+  vf1t:'M-Pesa & Tigo screenshots',vf1b:'Upload directly from your phone gallery. Saved instantly with metadata.',
+  vf2t:'Bank deposit slips — never fade again',vf2b:'Photograph the slip the moment you leave the bank. The digital copy never fades, never crumples, never disappears.',
+  vf3t:'One-tap dispute defence',vf3b:"Owner disputes your payment? Tap once. Show the complete sealed evidence of every payment you ever made.",
+  storyEy:'Why the name LUNO',storyQ:"In a village in East Africa in the 1990s, a young man named Luno did the unthinkable. He challenged what everyone else only feared. Nothing happened to him. And from that day, people would ask: \"But what would Luno say?\"",
+  storyAttr:'LUNO challenges the notebook. The dispute. The silence. The old way.',
+  proofEy:'Early users',proofH2:'People who\'ve seen LUNO<br>can\'t go back',proofP:'These are real stories from vehicle owners and drivers across Tanzania.',
+  t1q:'"I used a notebook. One day it burned. 8 months of payments were gone. LUNO would have saved everything."',t1role:'Bajaj owner · Dar es Salaam',
+  t2q:'"I never knew how many weeks were left. Now I wake up and see exactly — 42 weeks to owning my boda. It motivates me every morning."',t2role:'Bodaboda driver · Arusha',
+  t3q:'"I had disputes with my driver every month. LUNO ended that completely. The evidence is right there, no argument."',t3role:'Fleet owner · Mwanza',
+  priceEy:'Pricing',priceH2:'Simple pricing.<br><em>Built for East Africa.</em>',priceP:'Early users get full access free. After that — one week\'s payment from any driver covers your entire month on LUNO.',
+  pr1ey:'Free · Right now',pr1type:'Early access',pr1desc:'Full access for all early users — no expiry date announced',pr1per:'forever, for now',
+  prf11:'Unlimited vehicles & drivers',prf12:'Full evidence vault',prf13:'All features unlocked',prf14:'Swahili & English',prf15:'Owner + Driver app',
+  pr2ey:'Coming soon · After launch',pr2type:'Per vehicle',pr2desc:'Per vehicle, per month — after the free access period',pr2per:'boda · TZS 4k for bajaj',
+  prf21:'Less than ⅓ of one weekly payment',prf22:'Everything in free tier',prf23:'Priority support',prf24:'Annual plan available',prSave:'Pay annually · save 20%',
+  ctaEy:'Get early access',ctaH1:'Be first.',ctaH2:'Pay nothing.',ctaP:'Enter your phone number. When LUNO launches in your city, you get access before everyone else — completely free.',
+  ctaBtn:'Join free →',ctaFine:'🔒 Private. No spam. <span>Ever.</span> · 🇹🇿 Tanzania first, then East Africa',
+  nStory:'Story',nProduct:'Product',nPricing:'Pricing',nCta:'Get early access',
+  footSub:'Built in Dar es Salaam, Tanzania · 2026',fPrivacy:'Privacy',fContact:'Contact',fCopy:'© 2026 LUNO. All rights reserved.',
+  wlOk:"🎉 You're in! We'll reach you when LUNO launches in your city. Tell a fellow owner — they'll thank you.",
+  wlErr:'Please enter a valid phone number (07XX XXX XXX).',
+}};
+
+let lang='sw';
+
+function setLang(l){
+  lang=l;
+  document.getElementById('btn-sw').classList.toggle('on',l==='sw');
+  document.getElementById('btn-en').classList.toggle('on',l==='en');
+  const t=T[l];
+  const s=id=>document.getElementById(id);
+  s('h-eyebrow').textContent=t.hEyebrow;
+  s('h1-l1').textContent=t.h1l1;
+  s('h1-l2').textContent=t.h1l2;
+  s('h1-l3').textContent=t.h1l3;
+  s('hero-p').innerHTML=t.heroP;
+  s('h-btn1').textContent=t.hBtn1;
+  s('h-btn2').textContent=t.hBtn2;
+  s('ht1').textContent=t.ht1;
+  s('ht2').textContent=t.ht2;
+  s('ht3').textContent=t.ht3;
+  s('mq1').textContent=t.mq1;s('mq2').textContent=t.mq2;s('mq3').textContent=t.mq3;
+  s('mq4').textContent=t.mq4;s('mq5').textContent=t.mq5;s('mq6').textContent=t.mq6;
+  s('prob-ey').textContent=t.probEy;
+  s('prob-h2').innerHTML=t.probH2;
+  s('prob-p').textContent=t.probP;
+  s('pi1-t').textContent=t.pi1t;s('pi1-b').textContent=t.pi1b;s('pi1-tag').textContent=t.pi1tag;
+  s('pi2-t').textContent=t.pi2t;s('pi2-b').textContent=t.pi2b;s('pi2-tag').textContent=t.pi2tag;
+  s('pi3-t').textContent=t.pi3t;s('pi3-b').textContent=t.pi3b;s('pi3-tag').textContent=t.pi3tag;
+  s('pi4-t').textContent=t.pi4t;s('pi4-b').textContent=t.pi4b;s('pi4-tag').textContent=t.pi4tag;
+  s('oa-pill').textContent=t.oaPill;s('oa-h2').innerHTML=t.oaH2;s('oa-p').textContent=t.oaP;
+  s('f1-t').textContent=t.f1t;s('f1-b').textContent=t.f1b;
+  s('f2-t').textContent=t.f2t;s('f2-b').textContent=t.f2b;
+  s('f3-t').textContent=t.f3t;s('f3-b').textContent=t.f3b;
+  s('f4-t').textContent=t.f4t;s('f4-b').textContent=t.f4b;
+  s('mph-o-lbl').textContent=t.mphOLbl;s('mph-o-pc-l').textContent=t.mphOPcl;s('mph-o-pc-s').textContent=t.mphOPcs;
+  s('mph-o-g1').textContent=t.mphOG1;s('mph-o-g2').textContent=t.mphOG2;s('mph-o-g3').textContent=t.mphOG3;
+  s('mph-o-d1').textContent=t.mphOD1;s('mph-o-d2').textContent=t.mphOD2;s('mph-o-overdue').textContent=t.mphOOverdue;
+  s('da-pill').textContent=t.daPill;s('da-h2').innerHTML=t.daH2;s('da-p').textContent=t.daP;
+  s('d1-t').textContent=t.d1t;s('d1-b').textContent=t.d1b;
+  s('d2-t').textContent=t.d2t;s('d2-b').textContent=t.d2b;
+  s('d3-t').textContent=t.d3t;s('d3-b').textContent=t.d3b;
+  s('mph-d-lbl').textContent=t.mphDLbl;s('mph-d-ol').textContent=t.mphDOl;
+  s('mph-d-ot').innerHTML=t.mphDOt.replace('\n','<br>');
+  s('mph-d-pct').textContent=t.mphDPct;s('mph-d-nl').textContent=t.mphDNl;s('mph-d-nd').textContent=t.mphDNd;
+  s('mph-d-vt').textContent=t.mphDVt;s('mph-d-vs').textContent=t.mphDVs;
+  s('mph-d-paid').textContent=t.mphDPaid;s('mph-d-rem').textContent=t.mphDRem;
+  s('vault-ey').textContent=t.vaultEy;s('vault-h2').innerHTML=t.vaultH2;s('vault-p').textContent=t.vaultP;
+  s('vc-title').textContent=t.vcTitle;s('vc-sub').textContent=t.vcSub;
+  s('vcs1').textContent=t.vcs1;s('vcs2').textContent=t.vcs2;s('vcs3').textContent=t.vcs3;
+  s('rec1-wk').textContent=t.rec1Wk;s('rec1-t1').textContent=t.rec1T1;s('rec1-t2').textContent=t.rec1T2;s('rec1-t3').textContent=t.rec1T3;
+  s('rec2-wk').textContent=t.rec2Wk;s('rec2-t1').textContent=t.rec2T1;s('rec2-t2').textContent=t.rec2T2;
+  s('shield-txt').textContent=t.shieldTxt;
+  s('why-title').textContent=t.whyTitle;s('why-body').innerHTML=t.whyBody;
+  s('vault-f1-t').textContent=t.vf1t;s('vault-f1-b').textContent=t.vf1b;
+  s('vault-f2-t').textContent=t.vf2t;s('vault-f2-b').textContent=t.vf2b;
+  s('vault-f3-t').textContent=t.vf3t;s('vault-f3-b').textContent=t.vf3b;
+  s('story-ey').textContent=t.storyEy;s('story-q').textContent=t.storyQ;s('story-attr').textContent=t.storyAttr;
+  s('proof-ey').textContent=t.proofEy;s('proof-h2').innerHTML=t.proofH2;s('proof-p').textContent=t.proofP;
+  s('t1-q').textContent=t.t1q;s('t1-role').textContent=t.t1role;
+  s('t2-q').textContent=t.t2q;s('t2-role').textContent=t.t2role;
+  s('t3-q').textContent=t.t3q;s('t3-role').textContent=t.t3role;
+  s('price-ey').textContent=t.priceEy;s('price-h2').innerHTML=t.priceH2;s('price-p').textContent=t.priceP;
+  s('pr1-ey').textContent=t.pr1ey;s('pr1-type').textContent=t.pr1type;s('pr1-desc').textContent=t.pr1desc;s('pr1-per').textContent=t.pr1per;
+  s('prf1-1').textContent=t.prf11;s('prf1-2').textContent=t.prf12;s('prf1-3').textContent=t.prf13;s('prf1-4').textContent=t.prf14;s('prf1-5').textContent=t.prf15;
+  s('pr2-ey').textContent=t.pr2ey;s('pr2-type').textContent=t.pr2type;s('pr2-desc').textContent=t.pr2desc;s('pr2-per').textContent=t.pr2per;
+  s('prf2-1').textContent=t.prf21;s('prf2-2').textContent=t.prf22;s('prf2-3').textContent=t.prf23;s('prf2-4').textContent=t.prf24;
+  s('pr-save').textContent=t.prSave;
+  s('cta-ey').textContent=t.ctaEy;s('cta-h1').textContent=t.ctaH1;s('cta-h2').textContent=t.ctaH2;s('cta-p').textContent=t.ctaP;
+  s('cta-btn').textContent=t.ctaBtn;s('cta-fine').innerHTML=t.ctaFine;
+  s('n-story').textContent=t.nStory;s('n-product').textContent=t.nProduct;s('n-pricing').textContent=t.nPricing;s('n-cta').textContent=t.nCta;
+  s('foot-sub').textContent=t.footSub;s('f-privacy').textContent=t.fPrivacy;s('f-contact').textContent=t.fContact;s('f-copy').textContent=t.fCopy;
+  document.getElementById('wl-ok').classList.remove('on');
+  document.getElementById('wl-er').classList.remove('on');
+  document.documentElement.lang=l==='sw'?'sw':'en';
+}
+
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>20);
+});
+
+function goto(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
+
+function joinWL(){
+  const p=document.getElementById('wl-phone').value.trim();
+  const ok=document.getElementById('wl-ok');
+  const er=document.getElementById('wl-er');
+  ok.classList.remove('on');er.classList.remove('on');
+  if(!p||p.length<9){er.textContent=T[lang].wlErr;er.classList.add('on');return;}
+  ok.textContent=T[lang].wlOk;ok.classList.add('on');
+  document.getElementById('wl-phone').value='';
+}
+
+setLang('sw');
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(() => {});
+}
+</script>
+</body>
+</html>

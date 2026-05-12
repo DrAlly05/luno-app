@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="theme-color" content="#0ECF8A">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LUNO Mmiliki">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon.svg">
+<title>LUNO — Mmiliki / Owner</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+:root{
+--bg:#09090B;--bg2:#111113;--bg3:#18181B;--bg4:#1C1C1F;
+--bdr:#27272A;--bdr2:#3F3F46;
+--txt:#FAFAFA;--txt2:#A1A1AA;--txt3:#71717A;
+--g:#10B981;--gl:rgba(16,185,129,0.12);--gd:#059669;
+--r:#F43F5E;--rl:rgba(244,63,94,0.12);
+--a:#F59E0B;--al:rgba(245,158,11,0.12);
+--b:#6366F1;--bl:rgba(99,102,241,0.12);
+--gold:#F59E0B;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);min-height:100vh;min-height:100dvh;overflow-x:hidden}
+
+
+.sb{display:none}
+
+.scr{background:var(--bg);min-height:100vh;min-height:100dvh;overflow-y:auto;padding-bottom:env(safe-area-inset-bottom,20px)}
+
+/* LANG BAR */
+.lang-bar{background:var(--bg2);padding:8px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bdr)}
+.lang-toggle{display:flex;background:var(--bg3);border-radius:99px;padding:3px;gap:2px;border:1px solid var(--bdr)}
+.lt-btn{padding:5px 14px;border-radius:99px;font-size:11px;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(--txt3);font-family:'Inter',sans-serif;transition:all .2s;letter-spacing:.3px}
+.lt-btn.on{background:var(--g);color:#000}
+.lang-greet{font-size:11px;color:var(--txt3);font-weight:500}
+
+/* TABS */
+.tw{display:none}.tw.on{display:block}
+.main{display:block}.main.off{display:none}
+.det{display:none}.det.on{display:block}
+
+/* HERO */
+.hero{padding:18px 20px 14px}
+.htop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px}
+.hg{color:var(--txt3);font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+.hn{color:var(--txt);font-size:19px;font-weight:800;letter-spacing:-.3px;margin-top:3px}
+.notif-ring{width:38px;height:38px;border-radius:50%;border:1px solid var(--bdr2);display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--bg3);position:relative}
+.ndot{position:absolute;top:8px;right:8px;width:7px;height:7px;background:var(--r);border-radius:50%;border:1.5px solid var(--bg)}
+
+/* PORTFOLIO CARD */
+.port-card{background:linear-gradient(135deg,#0D2B1F,#0A1F17);border:1px solid rgba(16,185,129,0.2);border-radius:24px;padding:20px;margin-bottom:8px;position:relative;overflow:hidden}
+.pc-glow{position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(16,185,129,0.15),transparent 70%)}
+.pc-glow2{position:absolute;bottom:-40px;left:-20px;width:100px;height:100px;border-radius:50%;background:radial-gradient(circle,rgba(16,185,129,0.06),transparent 70%)}
+.pc-lbl{color:rgba(16,185,129,0.6);font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px;position:relative}
+.pc-amount{color:#fff;font-size:30px;font-weight:800;letter-spacing:-1px;line-height:1;position:relative}
+.pc-sub{color:var(--g);font-size:12px;font-weight:600;margin-top:6px;display:flex;align-items:center;gap:4px;position:relative}
+.pc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:rgba(255,255,255,0.06);border-radius:14px;overflow:hidden;margin-top:14px;position:relative}
+.pcg{background:rgba(255,255,255,0.04);padding:11px 8px;text-align:center}
+.pcg-v{color:#fff;font-size:15px;font-weight:800}
+.pcg-l{color:rgba(255,255,255,0.35);font-size:9px;margin-top:2px;font-weight:600;letter-spacing:.3px}
+
+/* PILOT BANNER */
+.pilot-banner{background:linear-gradient(135deg,#0f2d1f,#1a3a2a);border:1px solid rgba(16,185,129,0.15);border-radius:18px;padding:14px;margin-bottom:10px;display:flex;gap:10px;align-items:flex-start}
+.pb-icon{width:36px;height:36px;border-radius:10px;background:rgba(16,185,129,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.pb-title{color:var(--g);font-size:12px;font-weight:800}
+.pb-sub{color:rgba(255,255,255,0.45);font-size:10px;margin-top:3px;font-weight:500;line-height:1.5}
+
+/* DRIVER CARDS */
+.dcard{background:var(--bg3);border:1px solid var(--bdr);border-radius:20px;padding:14px;margin-bottom:10px;cursor:pointer;transition:border-color .2s;position:relative;overflow:hidden}
+.dcard:active{background:var(--bg4)}
+.dc-glow-g{position:absolute;bottom:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,rgba(16,185,129,0.08),transparent 70%)}
+.dc-glow-a{position:absolute;bottom:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,rgba(245,158,11,0.08),transparent 70%)}
+.dc-glow-r{position:absolute;bottom:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,rgba(244,63,94,0.08),transparent 70%)}
+.dc-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.av{width:40px;height:40px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+.avG{background:var(--gl);color:var(--g);border:1px solid rgba(16,185,129,0.2)}
+.avA{background:var(--al);color:var(--a);border:1px solid rgba(245,158,11,0.2)}
+.avR{background:var(--rl);color:var(--r);border:1px solid rgba(244,63,94,0.2)}
+.dc-name{color:var(--txt);font-size:13px;font-weight:700;letter-spacing:-.1px}
+.dc-sub{color:var(--txt3);font-size:10px;margin-top:2px;font-weight:500}
+.sdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.sdG{background:var(--g)}
+.sdA{background:var(--a);animation:pulse 2s infinite}
+.sdR{background:var(--r);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.pill{display:inline-flex;font-size:9px;padding:2px 7px;border-radius:99px;font-weight:800;margin-left:4px;letter-spacing:.2px}
+.pG{background:var(--gl);color:var(--g)}
+.pB{background:#EFF6FF;color:#1E40AF}
+.pR{background:var(--rl);color:var(--r)}
+.pA{background:var(--al);color:var(--a)}
+.dc-amounts{display:grid;grid-template-columns:1fr 1fr 1fr;margin-bottom:8px}
+.da{text-align:left}
+.da:nth-child(2){text-align:center}
+.da:nth-child(3){text-align:right}
+.da-v{color:var(--txt);font-size:12px;font-weight:700}
+.da-l{color:var(--txt3);font-size:9px;margin-top:1px;font-weight:500;letter-spacing:.2px}
+.trk{height:4px;background:var(--bg4);border-radius:99px;overflow:hidden;margin-bottom:6px;border:1px solid var(--bdr)}
+.tf{height:100%;border-radius:99px}
+.dc-foot{display:flex;justify-content:space-between;font-size:10px}
+.due-g{color:var(--g);font-weight:700}
+.due-a{color:var(--a);font-weight:700}
+.due-r{color:var(--r);font-weight:700}
+.wks{color:var(--txt3);font-weight:500}
+
+/* VEHICLES */
+.vcard{background:var(--bg3);border:1px solid var(--bdr);border-radius:20px;overflow:hidden;margin-bottom:10px;cursor:pointer}
+.vimg{width:100%;height:90px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--txt3);font-weight:500;border-bottom:1px solid var(--bdr)}
+.vbody{padding:13px}
+.vname{color:var(--txt);font-size:14px;font-weight:800;letter-spacing:-.2px}
+.vplate{color:var(--g);font-size:11px;font-weight:700;margin-top:2px}
+.vrows{margin-top:10px;border-top:1px solid var(--bdr);padding-top:10px}
+.vr{display:flex;justify-content:space-between;font-size:11px;padding:3px 0}
+.vrl{color:var(--txt3);font-weight:500}
+.vrv{color:var(--txt);font-weight:700}
+
+/* PROFIT */
+.profit-banner{background:linear-gradient(135deg,#0D2B1F,#0A1F17);border:1px solid rgba(16,185,129,0.2);border-radius:22px;padding:18px;margin-bottom:10px;position:relative;overflow:hidden}
+.profit-glow{position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(16,185,129,0.15),transparent 70%)}
+.profit-lbl{color:rgba(16,185,129,0.6);font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;position:relative}
+.profit-val{color:var(--g);font-size:28px;font-weight:800;letter-spacing:-1px;position:relative}
+.profit-sub{color:rgba(255,255,255,0.4);font-size:11px;margin-top:4px;font-weight:500;position:relative}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.pg{background:var(--bg3);border:1px solid var(--bdr);border-radius:16px;padding:12px}
+.pg-l{color:var(--txt3);font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:5px}
+.pg-v{color:var(--txt);font-size:15px;font-weight:800;letter-spacing:-.3px}
+
+/* ADD FORM */
+.fcard{background:var(--bg3);border:1px solid var(--bdr);border-radius:20px;padding:16px;margin-bottom:10px}
+.fl{font-size:10px;color:var(--txt3);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px;margin-top:12px;display:block}
+.fl:first-child{margin-top:0}
+input,select{width:100%;padding:10px 12px;border:1.5px solid var(--bdr2);border-radius:11px;font-size:13px;background:var(--bg4);color:var(--txt);outline:none;font-family:'Inter',sans-serif;font-weight:500;transition:border-color .2s}
+input:focus,select:focus{border-color:var(--g)}
+input::placeholder{color:var(--txt3)}
+select option{background:var(--bg3)}
+.ubox{border:1.5px dashed var(--bdr2);border-radius:14px;padding:20px;text-align:center;cursor:pointer;background:var(--bg4);transition:all .2s;margin-bottom:4px}
+.ubox:active{border-color:var(--g);background:var(--gl)}
+.uico{width:36px;height:36px;border-radius:10px;background:var(--bg3);border:1px solid var(--bdr2);margin:0 auto 8px;display:flex;align-items:center;justify-content:center}
+.utxt{color:var(--txt2);font-size:12px;font-weight:600}
+.usub{color:var(--txt3);font-size:10px;margin-top:3px}
+.prev-img{width:100%;border-radius:10px;object-fit:cover;display:none;margin-bottom:8px}
+.btn-g{width:100%;padding:13px;background:var(--g);color:#000;border:none;border-radius:13px;font-size:14px;font-weight:800;cursor:pointer;margin-top:12px;font-family:'Inter',sans-serif;letter-spacing:.2px;transition:opacity .15s}
+.btn-g:active{opacity:.8}
+.sum-box{background:var(--gl);border:1px solid rgba(16,185,129,0.2);border-radius:12px;padding:12px;margin-top:12px;display:none}
+.sr{display:flex;justify-content:space-between;font-size:11px;padding:3px 0}
+.sl2{color:rgba(16,185,129,0.7)}
+.sv{color:var(--g);font-weight:700}
+
+/* ALERTS */
+.ai{background:var(--bg3);border:1px solid var(--bdr);border-radius:16px;padding:13px 14px;margin-bottom:8px;display:flex;gap:10px}
+.ai-R{border-left:3px solid var(--r)}
+.ai-A{border-left:3px solid var(--a)}
+.ai-G{border-left:3px solid var(--g)}
+.ai-B{border-left:3px solid var(--b)}
+.ai-dot{width:7px;height:7px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.aiR{background:var(--r)}
+.aiA{background:var(--a)}
+.aiG{background:var(--g)}
+.aiB{background:var(--b)}
+.ai-title{color:var(--txt);font-size:12px;font-weight:700}
+.ai-sub{color:var(--txt3);font-size:10px;margin-top:3px;line-height:1.5;font-weight:500}
+
+/* TOAST */
+.toast{border-radius:12px;padding:12px 14px;font-size:12px;margin-top:10px;display:none;line-height:1.5;font-weight:600;border:1px solid}
+.toast.on{display:block}
+.toast-s{background:rgba(16,185,129,0.08);border-color:rgba(16,185,129,0.3);color:#34D399}
+.toast-e{background:rgba(244,63,94,0.08);border-color:rgba(244,63,94,0.3);color:#FB7185}
+
+/* SECTION */
+.sec{padding:14px 20px}
+.sec-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sec-ttl{color:var(--txt);font-size:13px;font-weight:800;letter-spacing:-.1px}
+.sec-lnk{color:var(--g);font-size:11px;font-weight:700;cursor:pointer}
+
+/* BOTTOM NAV */
+.btm{display:flex;background:var(--bg2);border-top:1px solid var(--bdr);padding:8px 0 18px}
+.bn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;border:none;background:transparent;padding:4px 0;font-family:'Inter',sans-serif}
+.bn-lbl{font-size:9px;font-weight:700;color:var(--txt3);letter-spacing:.2px}
+.bn.on .bn-lbl{color:var(--g)}
+.bn-add{width:46px;height:46px;background:var(--g);border-radius:16px;display:flex;align-items:center;justify-content:center;margin-top:-14px;border:3px solid var(--bg)}
+
+/* DETAIL */
+.det-hero{background:var(--bg3);border-bottom:1px solid var(--bdr);padding:18px 20px}
+.bk{display:flex;align-items:center;gap:5px;background:none;border:none;color:var(--g);font-size:13px;font-weight:700;cursor:pointer;padding:0;margin-bottom:14px;font-family:'Inter',sans-serif}
+.det-av{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;margin-bottom:10px}
+.det-name{color:var(--txt);font-size:17px;font-weight:800;letter-spacing:-.3px}
+.det-sub{color:var(--txt3);font-size:11px;margin-top:3px;font-weight:500}
+.stat4{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:14px 20px}
+.s4c{background:var(--bg3);border:1px solid var(--bdr);border-radius:15px;padding:12px}
+.s4v{color:var(--txt);font-size:17px;font-weight:800;letter-spacing:-.3px}
+.s4l{color:var(--txt3);font-size:10px;margin-top:3px;font-weight:500;letter-spacing:.2px}
+.info-list{margin:0 20px 14px;border:1px solid var(--bdr);border-radius:16px;overflow:hidden;background:var(--bg3)}
+.il{display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--bdr);font-size:12px}
+.il:last-child{border-bottom:none}
+.il-l{color:var(--txt3);font-weight:500}
+.il-v{color:var(--txt);font-weight:700;text-align:right;max-width:55%}
+.pay-sec{padding:0 20px 20px}
+.pay-ttl{color:var(--txt);font-size:13px;font-weight:800;margin-bottom:10px}
+
+/* PROFIT CALC */
+.calc-card{background:var(--bg3);border:1px solid var(--bdr);border-radius:20px;padding:16px;margin-bottom:10px}
+</style>
+</head>
+<body>
+<div style="display:flex;align-items:center;justify-content:space-between;background:var(--bg2);padding:10px 20px 6px;padding-top:calc(env(safe-area-inset-top,10px) + 10px);border-bottom:1px solid #27272A">
+  <a href="index.html" style="display:flex;align-items:center;gap:6px;color:#0ECF8A;text-decoration:none;font-size:12px;font-weight:700;font-family:Inter,sans-serif">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0ECF8A" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    LUNO
+  </a>
+  <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:#71717A;text-transform:uppercase">MMILIKI / OWNER</div>
+</div>
+
+<div class="sb">
+  <span class="sb-time">9:41</span>
+  <span style="color:var(--txt);font-size:10px;font-weight:500">●●●● 🔋</span>
+</div>
+<div class="scr">
+<div class="main" id="main">
+
+<!-- LANG BAR -->
+<div class="lang-bar">
+  <span class="lang-greet" id="lg">Chagua lugha / Choose language</span>
+  <div class="lang-toggle">
+    <button class="lt-btn on" id="lt-sw" onclick="setLang('sw')">🇹🇿 SW</button>
+    <button class="lt-btn" id="lt-en" onclick="setLang('en')">🇬🇧 EN</button>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="tw on" id="t-home">
+<div class="hero">
+  <div class="htop">
+    <div>
+      <div class="hg" id="h-lbl">MMILIKI · LUNO</div>
+      <div class="hn">Ali Mohammed</div>
+    </div>
+    <button class="notif-ring" onclick="goNav(4)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      <div class="ndot"></div>
+    </button>
+  </div>
+
+  <div class="port-card">
+    <div class="pc-glow"></div><div class="pc-glow2"></div>
+    <div class="pc-lbl" id="pc-lbl">Thamani ya Mkoba wako</div>
+    <div class="pc-amount">TZS 27,300,000</div>
+    <div class="pc-sub">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+      <span id="pc-sub">+54% imekusanywa · TZS 14.8M ndani</span>
+    </div>
+    <div class="pc-grid">
+      <div class="pcg"><div class="pcg-v">3</div><div class="pcg-l" id="pcg-veh">MAGARI</div></div>
+      <div class="pcg"><div class="pcg-v" style="color:#FCD34D">1</div><div class="pcg-l" id="pcg-due">LEO</div></div>
+      <div class="pcg"><div class="pcg-v" style="color:#FCA5A5">1</div><div class="pcg-l" id="pcg-late">MADENI</div></div>
+    </div>
+  </div>
+
+  <div class="pilot-banner">
+    <div class="pb-icon">⭐</div>
+    <div>
+      <div class="pb-title" id="pb-title">Majaribio — Bure Sasa Hivi</div>
+      <div class="pb-sub" id="pb-sub">Baadaye: TZS 2,000/mwezi kwa boda · TZS 4,000/mwezi kwa bajaj. Lipa mwaka mzima, pata punguzo la 20%.</div>
+    </div>
+  </div>
+
+  <div class="sec-row" style="padding:0 0 4px"><span class="sec-ttl" id="h-drivers">Madereva wako</span><span class="sec-lnk" onclick="goNav(1)" id="h-seeall">Ona yote</span></div>
+
+  <div class="dcard" onclick="openDet('hassan')">
+    <div class="dc-glow-g"></div>
+    <div class="dc-top">
+      <div class="av avG">HA</div>
+      <div style="flex:1;min-width:0">
+        <div class="dc-name">Hassan Abdallah <span class="pill pG">Bajaj</span></div>
+        <div class="dc-sub">T 234 ABC · TZS 210k/<span id="wk1">wiki</span></div>
+      </div>
+      <div class="sdot sdG"></div>
+    </div>
+    <div class="dc-amounts">
+      <div class="da"><div class="da-v" style="color:var(--g)">18.5M</div><div class="da-l" id="da-paid1">ILIYOPWA</div></div>
+      <div class="da"><div class="da-v">68%</div><div class="da-l" id="da-prog1">MAENDELEO</div></div>
+      <div class="da"><div class="da-v">8.8M</div><div class="da-l" id="da-left1">ILIYOBAKI</div></div>
+    </div>
+    <div class="trk"><div class="tf" style="width:68%;background:var(--g)"></div></div>
+    <div class="dc-foot"><span class="due-g" id="dc-due1">Inayofuata: siku 2</span><span class="wks">88/130 <span id="wks1">wiki</span></span></div>
+  </div>
+
+  <div class="dcard" onclick="openDet('juma')">
+    <div class="dc-glow-a"></div>
+    <div class="dc-top">
+      <div class="av avA">JM</div>
+      <div style="flex:1;min-width:0">
+        <div class="dc-name">Juma Mwangi <span class="pill pB">Boda</span></div>
+        <div class="dc-sub">T 456 DEF · TZS 70k/<span id="wk2">wiki</span></div>
+      </div>
+      <div class="sdot sdA"></div>
+    </div>
+    <div class="dc-amounts">
+      <div class="da"><div class="da-v" style="color:var(--g)">2.45M</div><div class="da-l" id="da-paid2">ILIYOPWA</div></div>
+      <div class="da"><div class="da-v">45%</div><div class="da-l" id="da-prog2">MAENDELEO</div></div>
+      <div class="da"><div class="da-v">3.0M</div><div class="da-l" id="da-left2">ILIYOBAKI</div></div>
+    </div>
+    <div class="trk"><div class="tf" style="width:45%;background:var(--a)"></div></div>
+    <div class="dc-foot"><span class="due-a" id="dc-due2">LEO — Tuma ukumbusho</span><span class="wks">35/78 <span id="wks2">wiki</span></span></div>
+  </div>
+
+  <div class="dcard" onclick="openDet('saidi')">
+    <div class="dc-glow-r"></div>
+    <div class="dc-top">
+      <div class="av avR">SM</div>
+      <div style="flex:1;min-width:0">
+        <div class="dc-name">Saidi Musa <span class="pill pR" id="overdue-pill">Madeni</span></div>
+        <div class="dc-sub">T 789 GHI · TZS 70k/<span id="wk3">wiki</span></div>
+      </div>
+      <div class="sdot sdR"></div>
+    </div>
+    <div class="dc-amounts">
+      <div class="da"><div class="da-v" style="color:var(--g)">1.61M</div><div class="da-l" id="da-paid3">ILIYOPWA</div></div>
+      <div class="da"><div class="da-v">30%</div><div class="da-l" id="da-prog3">MAENDELEO</div></div>
+      <div class="da"><div class="da-v">3.85M</div><div class="da-l" id="da-left3">ILIYOBAKI</div></div>
+    </div>
+    <div class="trk"><div class="tf" style="width:30%;background:var(--r)"></div></div>
+    <div class="dc-foot"><span class="due-r" id="dc-due3">MADENI — siku 5 · TZS 350k</span><span class="wks">23/78 <span id="wks3">wiki</span></span></div>
+  </div>
+</div>
+</div>
+
+<!-- VEHICLES -->
+<div class="tw" id="t-vehicles">
+<div class="sec">
+  <div class="sec-row"><span class="sec-ttl" id="veh-title">Meli yako</span><span class="sec-lnk" onclick="goNav(2)" id="veh-add">+ Ongeza</span></div>
+  <div class="vcard" onclick="openDet('hassan')">
+    <div class="vimg" id="vimg1">+ <span id="vimg-add1">Ongeza picha ya gari</span></div>
+    <div class="vbody">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div><div class="vname">Bajaj RE 3-Wheel</div><div class="vplate">T 234 ABC</div></div>
+        <div class="sdot sdG" style="margin-top:6px"></div>
+      </div>
+      <div class="vrows">
+        <div class="vr"><span class="vrl" id="vrl-eng1">Nambari ya injini</span><span class="vrv">ENG-2024-001</span></div>
+        <div class="vr"><span class="vrl" id="vrl-chs1">Chassis</span><span class="vrv">CHS-2024-001</span></div>
+        <div class="vr"><span class="vrl" id="vrl-yr1">Mwaka</span><span class="vrv">2023</span></div>
+        <div class="vr"><span class="vrl" id="vrl-ins1">Bima inaisha</span><span class="vrv" style="color:var(--g)">Des 2025 ✓</span></div>
+        <div class="vr"><span class="vrl" id="vrl-rd1">Leseni ya barabara</span><span class="vrv" style="color:var(--a)">Sep 2025 !</span></div>
+        <div class="vr"><span class="vrl" id="vrl-drv1">Dereva</span><span class="vrv">Hassan Abdallah</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="vcard" onclick="openDet('juma')">
+    <div class="vimg">+ <span id="vimg-add2">Ongeza picha ya gari</span></div>
+    <div class="vbody">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div><div class="vname">Honda CB 125</div><div class="vplate">T 456 DEF</div></div>
+        <div class="sdot sdA" style="margin-top:6px"></div>
+      </div>
+      <div class="vrows">
+        <div class="vr"><span class="vrl" id="vrl-eng2">Nambari ya injini</span><span class="vrv">ENG-2023-042</span></div>
+        <div class="vr"><span class="vrl" id="vrl-chs2">Chassis</span><span class="vrv">CHS-2023-042</span></div>
+        <div class="vr"><span class="vrl" id="vrl-yr2">Mwaka</span><span class="vrv">2022</span></div>
+        <div class="vr"><span class="vrl" id="vrl-ins2">Bima inaisha</span><span class="vrv" style="color:var(--g)">Mar 2026 ✓</span></div>
+        <div class="vr"><span class="vrl" id="vrl-rd2">Leseni ya barabara</span><span class="vrv" style="color:var(--g)">Jan 2026 ✓</span></div>
+        <div class="vr"><span class="vrl" id="vrl-drv2">Dereva</span><span class="vrv">Juma Mwangi</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ADD -->
+<div class="tw" id="t-add">
+<div class="sec">
+  <div class="sec-row"><span class="sec-ttl" id="add-title">Sajili Gari + Dereva</span></div>
+  <div class="fcard">
+    <div style="color:var(--g);font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px" id="add-veh-hdr">GARI</div>
+    <span class="fl" id="fl-vphoto">PICHA YA GARI</span>
+    <div class="ubox" onclick="document.getElementById('vf').click()">
+      <input type="file" id="vf" accept="image/*" style="display:none" onchange="prevImg(this,'vfprev','vfph')">
+      <img id="vfprev" class="prev-img">
+      <div id="vfph">
+        <div class="uico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <div class="utxt" id="ubox-veh">Gusa kupiga picha au pakia</div>
+      </div>
+    </div>
+    <span class="fl" id="fl-vtype">AINA YA GARI</span>
+    <select id="vt"><option id="opt-boda" value="boda">Bodaboda</option><option id="opt-bajaj" value="bajaj">Bajaj</option></select>
+    <span class="fl" id="fl-vmake">CHAPA NA MFANO</span>
+    <input type="text" id="vm" placeholder="mfano: Honda CB 125">
+    <span class="fl" id="fl-vyr">MWAKA</span>
+    <input type="number" id="vy" placeholder="mfano: 2022">
+    <span class="fl" id="fl-vplate">NAMBARI YA USAJILI</span>
+    <input type="text" id="vp" placeholder="mfano: T 234 ABC">
+    <span class="fl" id="fl-veng">NAMBARI YA INJINI</span>
+    <input type="text" id="ve" placeholder="">
+    <span class="fl" id="fl-vchs">NAMBARI YA CHASSIS</span>
+    <input type="text" id="vc" placeholder="">
+    <span class="fl" id="fl-vins">BIMA INAISHA</span>
+    <input type="date" id="vi">
+    <span class="fl" id="fl-vrd">LESENI YA BARABARA INAISHA</span>
+    <input type="date" id="vr2">
+  </div>
+  <div class="fcard">
+    <div style="color:var(--b);font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px" id="add-drv-hdr">DEREVA</div>
+    <span class="fl" id="fl-dphoto">PICHA YA PASIPOTI</span>
+    <div class="ubox" onclick="document.getElementById('df').click()">
+      <input type="file" id="df" accept="image/*" style="display:none" onchange="prevImg(this,'dfprev','dfph')">
+      <img id="dfprev" class="prev-img" style="height:90px;width:90px;border-radius:50%;margin:0 auto">
+      <div id="dfph">
+        <div class="uico" style="background:var(--bl)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div class="utxt" id="ubox-drv">Pakia picha ya pasipoti</div>
+      </div>
+    </div>
+    <span class="fl" id="fl-dname">JINA KAMILI</span>
+    <input type="text" id="dn" placeholder="">
+    <span class="fl" id="fl-dphone">SIMU</span>
+    <input type="tel" id="dp" placeholder="07XX XXX XXX">
+    <span class="fl" id="fl-dnida">NAMBA YA NIDA</span>
+    <input type="text" id="dnida" placeholder="">
+    <span class="fl" id="fl-dgname">JINA LA MDHAMINI</span>
+    <input type="text" id="dgn" placeholder="">
+    <span class="fl" id="fl-dgphone">SIMU YA MDHAMINI</span>
+    <input type="tel" id="dgp" placeholder="07XX XXX XXX">
+  </div>
+  <div class="fcard">
+    <div style="color:var(--gold);font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px" id="add-cont-hdr">MKATABA</div>
+    <span class="fl" id="fl-cstart">TAREHE YA KUANZA</span>
+    <input type="date" id="cs" oninput="calcSum()">
+    <span class="fl" id="fl-cdur">MUDA WA MKATABA</span>
+    <select id="cd" onchange="calcSum()">
+      <option value="12" id="opt-12m">Miezi 12</option>
+      <option value="18" selected id="opt-18m">Miezi 18</option>
+      <option value="24" id="opt-24m">Miezi 24</option>
+      <option value="30" id="opt-30m">Miezi 30 (Miaka 2.5)</option>
+      <option value="36" id="opt-36m">Miezi 36 (Miaka 3)</option>
+    </select>
+    <span class="fl" id="fl-cweekly">MALIPO YA KILA WIKI (TZS)</span>
+    <input type="number" id="cw" placeholder="mfano: 70,000" oninput="calcSum()">
+    <div class="sum-box" id="csum">
+      <div id="csumrows"></div>
+    </div>
+    <button class="btn-g" onclick="createContract()" id="create-btn">Tengeneza Mkataba</button>
+    <div class="toast" id="ctst"></div>
+  </div>
+</div>
+</div>
+
+<!-- PROFIT -->
+<div class="tw" id="t-profit">
+<div class="sec">
+  <div class="profit-banner">
+    <div class="profit-glow"></div>
+    <div class="profit-lbl" id="profit-lbl">Faida inayokadiriwa</div>
+    <div class="profit-val">TZS 9,100,000</div>
+    <div class="profit-sub" id="profit-sub">Magari 3 · makadirio ya mwaka</div>
+  </div>
+  <div class="pgrid">
+    <div class="pg"><div class="pg-l" id="pg-coll">ILIYOKUSANYWA</div><div class="pg-v" style="color:var(--g)">TZS 14.8M</div></div>
+    <div class="pg"><div class="pg-l" id="pg-rem">ILIYOBAKI</div><div class="pg-v">TZS 12.5M</div></div>
+    <div class="pg"><div class="pg-l" id="pg-month">MWEZI HUU</div><div class="pg-v" style="color:var(--g)">TZS 490k</div></div>
+    <div class="pg"><div class="pg-l" id="pg-overdue">MADENI</div><div class="pg-v" style="color:var(--r)">TZS 350k</div></div>
+    <div class="pg"><div class="pg-l" id="pg-roi">ROI YA WASTANI</div><div class="pg-v" style="color:var(--g)">+68%</div></div>
+    <div class="pg"><div class="pg-l" id="pg-annual">FAIDA YA MWAKA</div><div class="pg-v">TZS 9.1M</div></div>
+  </div>
+  <div class="sec-row"><span class="sec-ttl" id="calc-title">Kikokotoo cha Faida</span></div>
+  <div class="calc-card">
+    <span class="fl" id="fl-pprice">BEI YA GARI (TZS)</span>
+    <input type="number" id="pp" placeholder="mfano: 5,000,000" oninput="calcProfit()">
+    <span class="fl" id="fl-ptype">AINA YA GARI</span>
+    <select id="pt" onchange="calcProfit()">
+      <option value="boda" id="opt-pboda">Bodaboda (TZS 70k/wiki)</option>
+      <option value="bajaj" id="opt-pbajaj">Bajaj (TZS 210k/wiki)</option>
+    </select>
+    <span class="fl" id="fl-pdur">MUDA WA MKATABA</span>
+    <select id="pd" onchange="calcProfit()">
+      <option value="18" id="opt-p18">Miezi 18</option>
+      <option value="24" id="opt-p24">Miezi 24</option>
+      <option value="30" selected id="opt-p30">Miezi 30</option>
+      <option value="36" id="opt-p36">Miezi 36</option>
+    </select>
+    <div class="sum-box" id="psum"><div id="psumrows"></div></div>
+  </div>
+</div>
+</div>
+
+<!-- ALERTS -->
+<div class="tw" id="t-alerts">
+<div class="sec">
+  <div class="sec-row"><span class="sec-ttl" id="alerts-ttl">Arifa</span></div>
+  <div class="ai ai-R"><div class="ai-dot aiR"></div><div><div class="ai-title" id="a1-title">Saidi Musa — Madeni siku 5</div><div class="ai-sub" id="a1-sub">TZS 350,000 hazijalipwa. Boda · T 789 GHI. Wasiliana na dereva na mdhamini Musa Ali mara moja.</div></div></div>
+  <div class="ai ai-A"><div class="ai-dot aiA"></div><div><div class="ai-title" id="a2-title">Juma Mwangi — Inastahili leo</div><div class="ai-sub" id="a2-sub">TZS 70,000 inastahili leo. Boda · T 456 DEF. Tuma ukumbusho kwa dereva.</div></div></div>
+  <div class="ai ai-A"><div class="ai-dot aiA"></div><div><div class="ai-title" id="a3-title">Leseni ya barabara inaisha hivi karibuni</div><div class="ai-sub" id="a3-sub">Leseni ya Honda CB 125 inaisha Sep 2025. Siku 45 zimebaki. Fanya upya.</div></div></div>
+  <div class="ai ai-G"><div class="ai-dot aiG"></div><div><div class="ai-title" id="a4-title">Hassan Abdallah — Amelipa kwa wakati</div><div class="ai-sub" id="a4-sub">TZS 210,000 zimepokelewa. Wiki ya 88 ya 130 imekamilika. Bajaj T 234 ABC.</div></div></div>
+  <div class="ai ai-B"><div class="ai-dot aiB"></div><div><div class="ai-title" id="a5-title">Hatua ya mkoba</div><div class="ai-sub" id="a5-sub">Umekusanya zaidi ya TZS 14M jumla. 54% ya thamani yote ya mkoba wako imerejeshwa.</div></div></div>
+  <div class="calc-card" style="margin-top:4px">
+    <div class="sec-ttl" style="margin-bottom:10px" id="port-snap">Muhtasari wa Mkoba</div>
+    <div class="il"><span class="il-l" id="snap-total">Thamani yote ya mikataba</span><span class="il-v">TZS 27.3M</span></div>
+    <div class="il"><span class="il-l" id="snap-coll">Iliyokusanywa hadi sasa</span><span class="il-v" style="color:var(--g)">TZS 14.8M (54%)</span></div>
+    <div class="il"><span class="il-l" id="snap-rem">Salio linalobaki</span><span class="il-v">TZS 12.5M</span></div>
+    <div class="il" style="border-bottom:none"><span class="il-l" id="snap-overdue">Kiasi cha madeni</span><span class="il-v" style="color:var(--r)">TZS 350,000</span></div>
+  </div>
+</div>
+</div>
+
+<div class="btm" id="btm">
+  <button class="bn on" id="bn0" onclick="goNav(0)">
+    <div style="width:20px;height:20px;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+    <span class="bn-lbl" style="color:var(--g)" id="bn-home">Nyumbani</span>
+  </button>
+  <button class="bn" id="bn1" onclick="goNav(1)">
+    <div style="width:20px;height:20px;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#71717A" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+    <span class="bn-lbl" id="bn-vehicles">Magari</span>
+  </button>
+  <button class="bn" id="bn2" onclick="goNav(2)">
+    <div class="bn-add"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+    <span class="bn-lbl" style="margin-top:3px" id="bn-add">Ongeza</span>
+  </button>
+  <button class="bn" id="bn3" onclick="goNav(3)">
+    <div style="width:20px;height:20px;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#71717A" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+    <span class="bn-lbl" id="bn-profit">Faida</span>
+  </button>
+  <button class="bn" id="bn4" onclick="goNav(4)">
+    <div style="width:20px;height:20px;display:flex;align-items:center;justify-content:center;position:relative"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#71717A" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><div style="position:absolute;top:-2px;right:-2px;width:6px;height:6px;background:var(--r);border-radius:50%;border:1.5px solid var(--bg)"></div></div>
+    <span class="bn-lbl" id="bn-alerts">Arifa</span>
+  </button>
+</div>
+</div>
+
+<!-- DRIVER DETAIL -->
+<div class="det" id="det">
+  <div class="det-hero">
+    <button class="bk" onclick="closeDet()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg><span id="bk-txt">Rudi</span></button>
+    <div class="det-av" id="det-av"></div>
+    <div class="det-name" id="det-name"></div>
+    <div class="det-sub" id="det-sub"></div>
+  </div>
+  <div class="stat4">
+    <div class="s4c"><div class="s4v" id="d-paid" style="color:var(--g)"></div><div class="s4l" id="d-paid-lbl">ILIYOLIPWA</div></div>
+    <div class="s4c"><div class="s4v" id="d-rem" style="color:var(--r)"></div><div class="s4l" id="d-rem-lbl">ILIYOBAKI</div></div>
+    <div class="s4c"><div class="s4v" id="d-wks"></div><div class="s4l" id="d-wks-lbl">WIKI ZILIZOKAMILIKA</div></div>
+    <div class="s4c"><div class="s4v" id="d-pct"></div><div class="s4l" id="d-pct-lbl">IMEKAMILIKA</div></div>
+  </div>
+  <div class="info-list" id="d-info"></div>
+  <div class="pay-sec">
+    <div class="pay-ttl" id="pay-ttl">Rekodi Malipo</div>
+    <div class="fcard">
+      <span class="fl" id="fl-pamt">KIASI KILICHOPOKELEWA (TZS)</span>
+      <input type="number" id="pa" placeholder="Ingiza kiasi">
+      <span class="fl" id="fl-pdate">TAREHE ILIYOPOKELEWA</span>
+      <input type="date" id="pd">
+      <button class="btn-g" onclick="recPay()" id="rec-btn">Rekodi Malipo</button>
+      <div class="toast" id="ptst"></div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+const T={
+sw:{
+  lg:'Habari, mmiliki',hLbl:'MMILIKI · LUNO',
+  pcLbl:'Thamani ya Mkoba wako',pcSub:'+54% imekusanywa · TZS 14.8M ndani',
+  pcgVeh:'MAGARI',pcgDue:'LEO',pcgLate:'MADENI',
+  pbTitle:'Majaribio — Bure Sasa Hivi',pbSub:'Baadaye: TZS 2,000/mwezi kwa boda · TZS 4,000/mwezi kwa bajaj. Lipa mwaka mzima, pata punguzo la 20%.',
+  hDrivers:'Madereva wako',hSeeall:'Ona yote',
+  wk:'wiki',daPaid:'ILIYOLIPWA',daProg:'MAENDELEO',daLeft:'ILIYOBAKI',
+  due1:'Inayofuata: siku 2',due2:'LEO — Tuma ukumbusho',due3:'MADENI — siku 5 · TZS 350k',
+  overduePill:'Madeni',
+  vehTitle:'Chombo chako',vehAdd:'+ Ongeza',vimgAdd:'Ongeza picha ya gari',
+  vrlEng:'Nambari ya injini',vrlChs:'Chassis',vrlYr:'Mwaka',vrlIns:'Bima inaisha',vrlRd:'Leseni ya barabara',vrlDrv:'Dereva',
+  addTitle:'Sajili Gari + Dereva',addVehHdr:'GARI',addDrvHdr:'DEREVA',addContHdr:'MKATABA',
+  flVphoto:'PICHA YA GARI',flVtype:'AINA YA GARI',flVmake:'CHAPA NA MFANO',flVyr:'MWAKA',flVplate:'NAMBARI YA USAJILI',flVeng:'NAMBARI YA INJINI',flVchs:'NAMBARI YA CHASSIS',flVins:'BIMA INAISHA',flVrd:'LESENI YA BARABARA INAISHA',
+  flDphoto:'PICHA YA PASIPOTI',flDname:'JINA KAMILI',flDphone:'SIMU',flDnida:'NAMBA YA NIDA',flDgname:'JINA LA MDHAMINI',flDgphone:'SIMU YA MDHAMINI',
+  flCstart:'TAREHE YA KUANZA',flCdur:'MUDA WA MKATABA',flCweekly:'MALIPO YA KILA WIKI (TZS)',
+  uboxVeh:'Gusa kupiga picha au pakia',uboxDrv:'Pakia picha ya pasipoti',
+  optBoda:'Bodaboda',optBajaj:'Bajaj',opt12:'Miezi 12',opt18:'Miezi 18',opt24:'Miezi 24',opt30:'Miezi 30 (Miaka 2.5)',opt36:'Miezi 36 (Miaka 3)',
+  createBtn:'Tengeneza Mkataba',
+  profitLbl:'Faida inayokadiriwa',profitSub:'Magari 3 · makadirio ya mwaka',
+  pgColl:'ILIYOKUSANYWA',pgRem:'ILIYOBAKI',pgMonth:'MWEZI HUU',pgOverdue:'MADENI',pgRoi:'ROI YA WASTANI',pgAnnual:'FAIDA YA MWAKA',
+  calcTitle:'Kikokotoo cha Faida',flPprice:'BEI YA GARI (TZS)',flPtype:'AINA YA GARI',flPdur:'MUDA WA MKATABA',
+  optPboda:'Bodaboda (TZS 70k/wiki)',optPbajaj:'Bajaj (TZS 210k/wiki)',
+  opt18p:'Miezi 18',opt24p:'Miezi 24',opt30p:'Miezi 30',opt36p:'Miezi 36',
+  alertsTtl:'Arifa',
+  a1t:'Saidi Musa — Madeni siku 5',a1s:'TZS 350,000 hazijalipwa. Boda · T 789 GHI. Wasiliana na dereva na mdhamini Musa Ali mara moja.',
+  a2t:'Juma Mwangi — Inastahili leo',a2s:'TZS 70,000 inastahili leo. Boda · T 456 DEF. Tuma ukumbusho kwa dereva.',
+  a3t:'Leseni ya barabara inaisha hivi karibuni',a3s:'Leseni ya Honda CB 125 inaisha Sep 2025. Siku 45 zimebaki. Fanya upya.',
+  a4t:'Hassan Abdallah — Amelipa kwa wakati',a4s:'TZS 210,000 zimepokelewa. Wiki ya 88 ya 130 imekamilika. Bajaj T 234 ABC.',
+  a5t:'Hatua ya mkoba',a5s:'Umekusanya zaidi ya TZS 14M jumla. 54% ya thamani yote ya mkoba wako imerejeshwa.',
+  portSnap:'Muhtasari wa Mkoba',snapTotal:'Thamani yote ya mikataba',snapColl:'Iliyokusanywa hadi sasa',snapRem:'Salio linalobaki',snapOverdue:'Kiasi cha madeni',
+  bnHome:'Nyumbani',bnVehicles:'Magari',bnAdd:'Ongeza',bnProfit:'Faida',bnAlerts:'Arifa',
+  bkTxt:'← Rudi',dPaidLbl:'ILIYOLIPWA',dRemLbl:'ILIYOBAKI',dWksLbl:'WIKI ZILIZOKAMILIKA',dPctLbl:'IMEKAMILIKA',
+  payTtl:'Rekodi Malipo',flPamt:'KIASI KILICHOPOKELEWA (TZS)',flPdate:'TAREHE ILIYOPOKELEWA',recBtn:'Rekodi Malipo',
+  ilPhone:'Simu',ilNida:'NIDA',ilGuarantor:'Mdhamini',ilGphone:'Simu ya mdhamini',ilStart:'Mkataba ulianza',ilEnd:'Mkataba unaisha',ilWeekly:'Malipo ya kila wiki',ilTotal:'Thamani yote',
+  sumEnd:'Tarehe ya mwisho',sumWeeks:'Jumla ya wiki',sumTotal:'Thamani ya mkataba',sumOwn:'Umiliki unahamia',sumOnComp:'Baada ya kukamilika',
+  toastCreate:'Mkataba wa ',toastCreate2:' umetengenezwa. Dereva na mdhamini wataarifu.',
+  toastPay:'TZS ',toastPay2:' zimerekodiwa. Mkataba umesasishwa.',
+  toastErr:'Tafadhali ingiza kiasi na tarehe.',toastErrName:'Tafadhali ingiza jina la dereva.',
+  profitWk:'Mapato ya wiki',profitMo:'Mapato ya mwezi',profitTotal:'Thamani ya mkataba',profitNet:'Faida halisi',profitRoi:'ROI',
+},
+en:{
+  lg:'Good morning, owner',hLbl:'OWNER · LUNO',
+  pcLbl:'Total portfolio value',pcSub:'+54% collected · TZS 14.8M in',
+  pcgVeh:'VEHICLES',pcgDue:'DUE TODAY',pcgLate:'OVERDUE',
+  pbTitle:'Pilot — Free right now',pbSub:'Later: TZS 2,000/mo per boda · TZS 4,000/mo per bajaj. Pay annually, save 20%.',
+  hDrivers:'Your drivers',hSeeall:'See all',
+  wk:'week',daPaid:'PAID',daProg:'PROGRESS',daLeft:'LEFT',
+  due1:'Next due in 2 days',due2:'DUE TODAY — Send reminder',due3:'OVERDUE — 5 days · TZS 350k',
+  overduePill:'Overdue',
+  vehTitle:'Your fleet',vehAdd:'+ Add',vimgAdd:'Add vehicle photo',
+  vrlEng:'Engine no.',vrlChs:'Chassis no.',vrlYr:'Year',vrlIns:'Insurance expiry',vrlRd:'Road licence',vrlDrv:'Driver',
+  addTitle:'Register Vehicle + Driver',addVehHdr:'VEHICLE',addDrvHdr:'DRIVER',addContHdr:'CONTRACT',
+  flVphoto:'VEHICLE PHOTO',flVtype:'VEHICLE TYPE',flVmake:'MAKE & MODEL',flVyr:'YEAR',flVplate:'PLATE NUMBER',flVeng:'ENGINE NUMBER',flVchs:'CHASSIS NUMBER',flVins:'INSURANCE EXPIRY',flVrd:'ROAD LICENCE EXPIRY',
+  flDphoto:'PASSPORT PHOTO',flDname:'FULL NAME',flDphone:'PHONE',flDnida:'NIDA NUMBER',flDgname:'GUARANTOR NAME',flDgphone:'GUARANTOR PHONE',
+  flCstart:'START DATE',flCdur:'CONTRACT DURATION',flCweekly:'WEEKLY PAYMENT (TZS)',
+  uboxVeh:'Tap to take photo or upload',uboxDrv:'Upload passport size photo',
+  optBoda:'Bodaboda',optBajaj:'Bajaj',opt12:'12 months',opt18:'18 months',opt24:'24 months',opt30:'30 months (2.5 yrs)',opt36:'36 months (3 yrs)',
+  createBtn:'Create Contract',
+  profitLbl:'Estimated total profit',profitSub:'3 vehicles · annual projection',
+  pgColl:'COLLECTED',pgRem:'REMAINING',pgMonth:'THIS MONTH',pgOverdue:'OVERDUE',pgRoi:'AVG ROI',pgAnnual:'ANNUAL EST.',
+  calcTitle:'Profit Calculator',flPprice:'VEHICLE PURCHASE PRICE (TZS)',flPtype:'VEHICLE TYPE',flPdur:'CONTRACT DURATION',
+  optPboda:'Bodaboda (TZS 70k/week)',optPbajaj:'Bajaj (TZS 210k/week)',
+  opt18p:'18 months',opt24p:'24 months',opt30p:'30 months',opt36p:'36 months',
+  alertsTtl:'Alerts',
+  a1t:'Saidi Musa — Overdue 5 days',a1s:'TZS 350,000 unpaid. Boda · T 789 GHI. Contact driver and guarantor Musa Ali immediately.',
+  a2t:'Juma Mwangi — Due today',a2s:'TZS 70,000 due today. Boda · T 456 DEF. Send reminder now.',
+  a3t:'Road licence expiring soon',a3s:'Honda CB 125 road licence expires Sep 2025. 45 days remaining. Renew now.',
+  a4t:'Hassan Abdallah — Paid on time',a4s:'TZS 210,000 received. Week 88/130 complete. Bajaj T 234 ABC.',
+  a5t:'Portfolio milestone',a5s:'You\'ve collected over TZS 14M total. 54% of your full portfolio value recovered.',
+  portSnap:'Portfolio Snapshot',snapTotal:'Total contracts value',snapColl:'Collected so far',snapRem:'Remaining balance',snapOverdue:'Overdue amount',
+  bnHome:'Home',bnVehicles:'Vehicles',bnAdd:'Add',bnProfit:'Profit',bnAlerts:'Alerts',
+  bkTxt:'← Back',dPaidLbl:'TOTAL PAID',dRemLbl:'REMAINING',dWksLbl:'WEEKS DONE',dPctLbl:'COMPLETE',
+  payTtl:'Record Payment',flPamt:'AMOUNT RECEIVED (TZS)',flPdate:'DATE RECEIVED',recBtn:'Record Payment',
+  ilPhone:'Phone',ilNida:'NIDA',ilGuarantor:'Guarantor',ilGphone:'Guarantor phone',ilStart:'Contract start',ilEnd:'Contract end',ilWeekly:'Weekly payment',ilTotal:'Total value',
+  sumEnd:'End date',sumWeeks:'Total weeks',sumTotal:'Contract value',sumOwn:'Ownership transfer',sumOnComp:'On completion',
+  toastCreate:'Contract for ',toastCreate2:' created. Driver and guarantor will be notified.',
+  toastPay:'TZS ',toastPay2:' recorded. Contract updated.',
+  toastErr:'Please enter amount and date.',toastErrName:'Please enter driver name.',
+  profitWk:'Weekly income',profitMo:'Monthly income',profitTotal:'Total contract value',profitNet:'Net profit',profitRoi:'ROI',
+}};
+
+const DR={
+  hassan:{init:'HA',name:'Hassan Abdallah',cls:'avG',type:'Bajaj',plate:'T 234 ABC',phone:'0712 000 001',nida:'19870101-12345-00001-0',gname:'Ibrahim Said',gphone:'0712 000 002',start:'1 Jan 2024',end:'30 Jun 2026',dur:{sw:'Miaka 2.5',en:'2.5 years'},weekly:210000,total:130,paid:88},
+  juma:{init:'JM',name:'Juma Mwangi',cls:'avA',type:'Bodaboda',plate:'T 456 DEF',phone:'0712 000 003',nida:'19900215-67890-00002-1',gname:'Mwangi Kibe',gphone:'0712 000 004',start:'1 Oct 2024',end:'31 Mar 2026',dur:{sw:'Miezi 18',en:'18 months'},weekly:70000,total:78,paid:35},
+  saidi:{init:'SM',name:'Saidi Musa',cls:'avR',type:'Bodaboda',plate:'T 789 GHI',phone:'0712 000 005',nida:'19851120-11111-00003-2',gname:'Musa Ali',gphone:'0712 000 006',start:'1 Apr 2024',end:'30 Sep 2025',dur:{sw:'Miezi 18',en:'18 months'},weekly:70000,total:78,paid:23}
+};
+
+let lang='sw';
+const tabs=['home','vehicles','add','profit','alerts'];
+
+function setLang(l){
+  lang=l;
+  document.getElementById('lt-sw').classList.toggle('on',l==='sw');
+  document.getElementById('lt-en').classList.toggle('on',l==='en');
+  const t=T[l];
+  const s=id=>document.getElementById(id);
+  s('lg').textContent=t.lg;
+  s('h-lbl').textContent=t.hLbl;
+  s('pc-lbl').textContent=t.pcLbl;
+  s('pc-sub').textContent=t.pcSub;
+  s('pcg-veh').textContent=t.pcgVeh;
+  s('pcg-due').textContent=t.pcgDue;
+  s('pcg-late').textContent=t.pcgLate;
+  s('pb-title').textContent=t.pbTitle;
+  s('pb-sub').textContent=t.pbSub;
+  s('h-drivers').textContent=t.hDrivers;
+  s('h-seeall').textContent=t.hSeeall;
+  ['1','2','3'].forEach(n=>{
+    s('wk'+n).textContent=t.wk;
+    s('da-paid'+n).textContent=t.daPaid;
+    s('da-prog'+n).textContent=t.daProg;
+    s('da-left'+n).textContent=t.daLeft;
+    s('wks'+n).textContent=t.wk;
+  });
+  s('dc-due1').textContent=t.due1;
+  s('dc-due2').textContent=t.due2;
+  s('dc-due3').textContent=t.due3;
+  s('overdue-pill').textContent=t.overduePill;
+  s('veh-title').textContent=t.vehTitle;
+  s('veh-add').textContent=t.vehAdd;
+  s('vimg-add1').textContent=t.vimgAdd;
+  s('vimg-add2').textContent=t.vimgAdd;
+  ['1','2'].forEach(n=>{
+    s('vrl-eng'+n).textContent=t.vrlEng;
+    s('vrl-chs'+n).textContent=t.vrlChs;
+    s('vrl-yr'+n).textContent=t.vrlYr;
+    s('vrl-ins'+n).textContent=t.vrlIns;
+    s('vrl-rd'+n).textContent=t.vrlRd;
+    s('vrl-drv'+n).textContent=t.vrlDrv;
+  });
+  s('add-title').textContent=t.addTitle;
+  s('add-veh-hdr').textContent=t.addVehHdr;
+  s('add-drv-hdr').textContent=t.addDrvHdr;
+  s('add-cont-hdr').textContent=t.addContHdr;
+  s('fl-vphoto').textContent=t.flVphoto;
+  s('fl-vtype').textContent=t.flVtype;
+  s('fl-vmake').textContent=t.flVmake;
+  s('fl-vyr').textContent=t.flVyr;
+  s('fl-vplate').textContent=t.flVplate;
+  s('fl-veng').textContent=t.flVeng;
+  s('fl-vchs').textContent=t.flVchs;
+  s('fl-vins').textContent=t.flVins;
+  s('fl-vrd').textContent=t.flVrd;
+  s('fl-dphoto').textContent=t.flDphoto;
+  s('fl-dname').textContent=t.flDname;
+  s('fl-dphone').textContent=t.flDphone;
+  s('fl-dnida').textContent=t.flDnida;
+  s('fl-dgname').textContent=t.flDgname;
+  s('fl-dgphone').textContent=t.flDgphone;
+  s('fl-cstart').textContent=t.flCstart;
+  s('fl-cdur').textContent=t.flCdur;
+  s('fl-cweekly').textContent=t.flCweekly;
+  s('ubox-veh').textContent=t.uboxVeh;
+  s('ubox-drv').textContent=t.uboxDrv;
+  s('opt-boda').textContent=t.optBoda;
+  s('opt-bajaj').textContent=t.optBajaj;
+  s('opt-12m').textContent=t.opt12;
+  s('opt-18m').textContent=t.opt18;
+  s('opt-24m').textContent=t.opt24;
+  s('opt-30m').textContent=t.opt30;
+  s('opt-36m').textContent=t.opt36;
+  s('create-btn').textContent=t.createBtn;
+  s('profit-lbl').textContent=t.profitLbl;
+  s('profit-sub').textContent=t.profitSub;
+  s('pg-coll').textContent=t.pgColl;
+  s('pg-rem').textContent=t.pgRem;
+  s('pg-month').textContent=t.pgMonth;
+  s('pg-overdue').textContent=t.pgOverdue;
+  s('pg-roi').textContent=t.pgRoi;
+  s('pg-annual').textContent=t.pgAnnual;
+  s('calc-title').textContent=t.calcTitle;
+  s('fl-pprice').textContent=t.flPprice;
+  s('fl-ptype').textContent=t.flPtype;
+  s('fl-pdur').textContent=t.flPdur;
+  s('opt-pboda').textContent=t.optPboda;
+  s('opt-pbajaj').textContent=t.optPbajaj;
+  s('opt-p18').textContent=t.opt18p;
+  s('opt-p24').textContent=t.opt24p;
+  s('opt-p30').textContent=t.opt30p;
+  s('opt-p36').textContent=t.opt36p;
+  s('alerts-ttl').textContent=t.alertsTtl;
+  s('a1-title').textContent=t.a1t;s('a1-sub').textContent=t.a1s;
+  s('a2-title').textContent=t.a2t;s('a2-sub').textContent=t.a2s;
+  s('a3-title').textContent=t.a3t;s('a3-sub').textContent=t.a3s;
+  s('a4-title').textContent=t.a4t;s('a4-sub').textContent=t.a4s;
+  s('a5-title').textContent=t.a5t;s('a5-sub').textContent=t.a5s;
+  s('port-snap').textContent=t.portSnap;
+  s('snap-total').textContent=t.snapTotal;
+  s('snap-coll').textContent=t.snapColl;
+  s('snap-rem').textContent=t.snapRem;
+  s('snap-overdue').textContent=t.snapOverdue;
+  s('bn-home').textContent=t.bnHome;
+  s('bn-vehicles').textContent=t.bnVehicles;
+  s('bn-add').textContent=t.bnAdd;
+  s('bn-profit').textContent=t.bnProfit;
+  s('bn-alerts').textContent=t.bnAlerts;
+  s('bk-txt').textContent=t.bkTxt;
+  s('d-paid-lbl').textContent=t.dPaidLbl;
+  s('d-rem-lbl').textContent=t.dRemLbl;
+  s('d-wks-lbl').textContent=t.dWksLbl;
+  s('d-pct-lbl').textContent=t.dPctLbl;
+  s('pay-ttl').textContent=t.payTtl;
+  s('fl-pamt').textContent=t.flPamt;
+  s('fl-pdate').textContent=t.flPdate;
+  s('rec-btn').textContent=t.recBtn;
+}
+
+function goNav(i){
+  tabs.forEach((t,idx)=>{
+    document.getElementById('t-'+t).classList.toggle('on',idx===i);
+    const bn=document.getElementById('bn'+idx);
+    if(bn){
+      bn.classList.toggle('on',idx===i);
+      bn.querySelectorAll('svg').forEach(s=>s.style.stroke=idx===i?'#10B981':'#71717A');
+      bn.querySelector('.bn-lbl').style.color=idx===i?'#10B981':'#71717A';
+    }
+  });
+}
+
+function openDet(id){
+  const d=DR[id];const t=T[lang];
+  document.getElementById('main').classList.add('off');
+  document.getElementById('det').classList.add('on');
+  const av=document.getElementById('det-av');
+  av.textContent=d.init;av.className='det-av '+d.cls;
+  document.getElementById('det-name').textContent=d.name;
+  document.getElementById('det-sub').textContent=d.type+' · '+d.plate+' · '+d.dur[lang];
+  const pA=(d.paid*d.weekly).toLocaleString();
+  const rA=((d.total-d.paid)*d.weekly).toLocaleString();
+  const pct=Math.round(d.paid/d.total*100);
+  document.getElementById('d-paid').textContent='TZS '+pA;
+  document.getElementById('d-rem').textContent='TZS '+rA;
+  document.getElementById('d-wks').textContent=d.paid+'/'+d.total;
+  document.getElementById('d-pct').textContent=pct+'%';
+  document.getElementById('d-info').innerHTML=`
+    <div class="il"><span class="il-l">${t.ilPhone}</span><span class="il-v">${d.phone}</span></div>
+    <div class="il"><span class="il-l">${t.ilNida}</span><span class="il-v">${d.nida}</span></div>
+    <div class="il"><span class="il-l">${t.ilGuarantor}</span><span class="il-v">${d.gname}</span></div>
+    <div class="il"><span class="il-l">${t.ilGphone}</span><span class="il-v">${d.gphone}</span></div>
+    <div class="il"><span class="il-l">${t.ilStart}</span><span class="il-v">${d.start}</span></div>
+    <div class="il"><span class="il-l">${t.ilEnd}</span><span class="il-v">${d.end}</span></div>
+    <div class="il"><span class="il-l">${t.ilWeekly}</span><span class="il-v">TZS ${d.weekly.toLocaleString()}</span></div>
+    <div class="il"><span class="il-l">${t.ilTotal}</span><span class="il-v">TZS ${(d.total*d.weekly).toLocaleString()}</span></div>
+  `;
+  document.getElementById('ptst').className='toast';
+  document.getElementById('pd').valueAsDate=new Date();
+}
+
+function closeDet(){
+  document.getElementById('main').classList.remove('off');
+  document.getElementById('det').classList.remove('on');
+}
+
+function recPay(){
+  const a=document.getElementById('pa').value;
+  const d=document.getElementById('pd').value;
+  const t=document.getElementById('ptst');const tr=T[lang];
+  if(!a||!d){t.textContent=tr.toastErr;t.className='toast toast-e on';return;}
+  t.textContent=tr.toastPay+parseInt(a).toLocaleString()+tr.toastPay2;
+  t.className='toast toast-s on';
+  document.getElementById('pa').value='';
+}
+
+function calcSum(){
+  const w=parseInt(document.getElementById('cw').value)||0;
+  const dur=parseInt(document.getElementById('cd').value);
+  const start=document.getElementById('cs').value;
+  const weeks=dur*4;const total=weeks*w;
+  const t=T[lang];
+  if(!w){document.getElementById('csum').style.display='none';return;}
+  let end='';
+  if(start){const d=new Date(start);d.setMonth(d.getMonth()+dur);end=`<div class="sr"><span class="sl2">${t.sumEnd}</span><span class="sv">${d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</span></div>`;}
+  document.getElementById('csum').style.display='block';
+  document.getElementById('csumrows').innerHTML=`${end}
+    <div class="sr"><span class="sl2">${t.sumWeeks}</span><span class="sv">${weeks}</span></div>
+    <div class="sr"><span class="sl2">${t.sumTotal}</span><span class="sv">TZS ${total.toLocaleString()}</span></div>
+    <div class="sr"><span class="sl2">${t.sumOwn}</span><span class="sv">${t.sumOnComp}</span></div>`;
+}
+
+function createContract(){
+  const name=document.getElementById('dn').value.trim();
+  const t=document.getElementById('ctst');const tr=T[lang];
+  if(!name){t.textContent=tr.toastErrName;t.className='toast toast-e on';return;}
+  t.textContent=tr.toastCreate+name+tr.toastCreate2;
+  t.className='toast toast-s on';
+}
+
+function calcProfit(){
+  const price=parseInt(document.getElementById('pp').value)||0;
+  const type=document.getElementById('pt').value;
+  const dur=parseInt(document.getElementById('pd').value);
+  const weekly=type==='bajaj'?210000:70000;
+  const weeks=dur*4;const total=weeks*weekly;
+  const profit=total-price;const roi=price>0?Math.round(profit/price*100):0;
+  const t=T[lang];
+  document.getElementById('psum').style.display='block';
+  document.getElementById('psumrows').innerHTML=`
+    <div class="sr"><span class="sl2">${t.profitWk}</span><span class="sv">TZS ${weekly.toLocaleString()}</span></div>
+    <div class="sr"><span class="sl2">${t.profitMo}</span><span class="sv">TZS ${(weekly*4).toLocaleString()}</span></div>
+    <div class="sr"><span class="sl2">${t.profitTotal}</span><span class="sv">TZS ${total.toLocaleString()}</span></div>
+    <div class="sr"><span class="sl2">${t.profitNet}</span><span class="sv" style="color:${profit>=0?'var(--g)':'var(--r)'}">TZS ${profit.toLocaleString()}</span></div>
+    <div class="sr"><span class="sl2">${t.profitRoi}</span><span class="sv" style="color:${roi>=0?'var(--g)':'var(--r)'}">${roi}%</span></div>`;
+}
+
+function prevImg(input,prevId,phId){
+  if(input.files&&input.files[0]){
+    const r=new FileReader();
+    r.onload=e=>{
+      const img=document.getElementById(prevId);
+      img.src=e.target.result;img.style.display='block';
+      document.getElementById(phId).style.display='none';
+    };
+    r.readAsDataURL(input.files[0]);
+  }
+}
+
+document.getElementById('cs').valueAsDate=new Date();
+document.querySelectorAll('#bn0 svg').forEach(s=>s.style.stroke='#10B981');
+setLang('sw');
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(() => {});
+}
+</script>
+
+</body>
+</html>

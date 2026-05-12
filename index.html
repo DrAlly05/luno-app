@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0ECF8A">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LUNO">
+<meta name="description" content="Simamia gari lako. Manage your vehicle. Bilingual boda & bajaj app for East Africa.">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon.svg">
+<title>LUNO</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#08080A;--bg2:#0F0F12;--bg3:#16161A;--bg4:#1C1C21;
+  --bdr:rgba(255,255,255,0.06);--bdr2:rgba(255,255,255,0.10);--bdr3:rgba(255,255,255,0.18);
+  --txt:#F2F2F7;--txt2:#98989F;--txt3:#5A5A62;
+  --g:#0ECF8A;--gl:rgba(14,207,138,0.12);--gd:#0aad74;
+  --a:#FF9F0A;--b:#5E5CE6;
+}
+html,body{height:100%;width:100%}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--txt);
+  min-height:100vh;
+  min-height:100dvh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  padding:env(safe-area-inset-top,24px) 24px env(safe-area-inset-bottom,40px);
+  overflow:hidden;
+  position:relative;
+}
+.orb1{position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(ellipse,rgba(14,207,138,0.07),transparent 65%);pointer-events:none;z-index:0}
+.orb2{position:absolute;bottom:10%;right:-20%;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(94,92,230,0.06),transparent 70%);pointer-events:none;z-index:0}
+
+/* TOP */
+.top{display:flex;flex-direction:column;align-items:center;padding-top:10vh;position:relative;z-index:1}
+.logo-icon{width:72px;height:72px;background:var(--g);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:900;color:#000;margin-bottom:20px;box-shadow:0 0 40px rgba(14,207,138,0.2)}
+.app-name{font-size:36px;font-weight:900;letter-spacing:-2px;color:var(--txt);margin-bottom:6px}
+.tagline{font-size:14px;color:var(--txt3);font-weight:400;letter-spacing:.2px;text-align:center;line-height:1.5;max-width:240px}
+.tagline em{color:var(--txt2);font-style:normal}
+
+/* STORY PILL */
+.story-pill{margin-top:20px;background:var(--bg3);border:1px solid var(--bdr2);border-radius:99px;padding:8px 16px;font-size:11px;color:var(--txt3);letter-spacing:.3px;display:flex;align-items:center;gap:7px}
+.sp-dot{width:6px;height:6px;border-radius:50%;background:var(--g);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* CARDS */
+.cards{width:100%;max-width:400px;display:flex;flex-direction:column;gap:14px;position:relative;z-index:1}
+.card{
+  background:var(--bg3);
+  border:1px solid var(--bdr2);
+  border-radius:20px;
+  padding:20px;
+  cursor:pointer;
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  transition:transform .15s ease, border-color .15s ease;
+  -webkit-touch-callout:none;
+  user-select:none;
+}
+.card:active{transform:scale(0.97);border-color:var(--bdr3)}
+.card-owner{border-color:rgba(14,207,138,0.25)}
+.card-driver{border-color:rgba(94,92,230,0.2)}
+.card-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.ci-owner{background:var(--gl);border:1px solid rgba(14,207,138,0.2)}
+.ci-driver{background:rgba(94,92,230,0.12);border:1px solid rgba(94,92,230,0.2)}
+.card-text{flex:1}
+.card-label{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px}
+.cl-owner{color:var(--g)}
+.cl-driver{color:var(--b)}
+.card-title{font-size:17px;font-weight:800;letter-spacing:-.4px;color:var(--txt);margin-bottom:2px}
+.card-sub{font-size:12px;color:var(--txt3);line-height:1.4}
+.card-arrow{color:var(--txt3);font-size:18px;flex-shrink:0}
+.card-owner .card-arrow{color:var(--g)}
+.card-driver .card-arrow{color:var(--b)}
+
+/* BOTTOM */
+.bottom{text-align:center;position:relative;z-index:1}
+.bottom-name{font-size:12px;color:var(--txt3);font-weight:500;margin-bottom:3px}
+.bottom-sub{font-size:10px;color:var(--txt3);opacity:.5;letter-spacing:.3px}
+
+/* LANG BAR */
+.lang-bar{display:flex;gap:6px;justify-content:center;margin-bottom:16px}
+.lb-btn{padding:6px 14px;border-radius:99px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid var(--bdr2);background:var(--bg3);color:var(--txt3);font-family:'Inter',sans-serif;transition:all .2s;letter-spacing:.3px}
+.lb-btn.on{background:var(--g);color:#000;border-color:var(--g)}
+
+/* INSTALL BANNER */
+.install-banner{
+  display:none;
+  width:100%;max-width:400px;
+  background:var(--bg3);border:1px solid rgba(14,207,138,0.2);border-radius:14px;
+  padding:12px 16px;
+  flex-direction:row;align-items:center;gap:12px;
+  margin-bottom:10px;position:relative;z-index:1;
+}
+.install-banner.show{display:flex}
+.ib-icon{width:36px;height:36px;background:var(--gl);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ib-text{flex:1}
+.ib-title{font-size:12px;font-weight:700;color:var(--txt);margin-bottom:1px}
+.ib-sub{font-size:10px;color:var(--txt3)}
+.ib-btn{padding:7px 14px;background:var(--g);color:#000;border:none;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap}
+.ib-close{background:none;border:none;color:var(--txt3);cursor:pointer;font-size:18px;padding:4px;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="orb1"></div>
+<div class="orb2"></div>
+
+<!-- INSTALL BANNER -->
+<div class="install-banner" id="install-banner">
+  <div class="ib-icon">📲</div>
+  <div class="ib-text">
+    <div class="ib-title" id="ib-title">Sakinisha LUNO</div>
+    <div class="ib-sub" id="ib-sub">Ongeza kwenye skrini yako ya nyumbani</div>
+  </div>
+  <button class="ib-btn" id="ib-btn" onclick="installApp()">Sakinisha</button>
+  <button class="ib-close" onclick="dismissInstall()">×</button>
+</div>
+
+<!-- TOP SECTION -->
+<div class="top">
+  <div class="logo-icon">L</div>
+  <div class="app-name">LUNO</div>
+  <div class="tagline" id="tagline"><em>Simamia gari lako.</em><br>Manage your vehicle.</div>
+  <div class="story-pill">
+    <span class="sp-dot"></span>
+    <span id="story-text">Hadithi ya mtu aliyebadilisha kijiji chake</span>
+  </div>
+</div>
+
+<!-- ROLE CARDS -->
+<div class="cards">
+  <div class="lang-bar">
+    <button class="lb-btn on" onclick="setLang('sw')" id="lb-sw">🇹🇿 Kiswahili</button>
+    <button class="lb-btn" onclick="setLang('en')" id="lb-en">🇬🇧 English</button>
+  </div>
+
+  <a class="card card-owner" href="owner-app.html">
+    <div class="card-icon ci-owner">🏍</div>
+    <div class="card-text">
+      <div class="card-label cl-owner" id="lbl-owner">MMILIKI</div>
+      <div class="card-title" id="title-owner">Mimi ni Mmiliki</div>
+      <div class="card-sub" id="sub-owner">Simamia magari, madereva na malipo</div>
+    </div>
+    <div class="card-arrow">→</div>
+  </a>
+
+  <a class="card card-driver" href="driver-app.html">
+    <div class="card-icon ci-driver">🪖</div>
+    <div class="card-text">
+      <div class="card-label cl-driver" id="lbl-driver">DEREVA</div>
+      <div class="card-title" id="title-driver">Mimi ni Dereva</div>
+      <div class="card-sub" id="sub-driver">Angalia maendeleo ya umiliki wako</div>
+    </div>
+    <div class="card-arrow">→</div>
+  </a>
+</div>
+
+<!-- BOTTOM -->
+<div class="bottom">
+  <div class="bottom-name">LUNO · Dar es Salaam, Tanzania</div>
+  <div class="bottom-sub">© 2025 LUNO · Dr. Ali Mohammed Said</div>
+</div>
+
+<script>
+const T = {
+  sw: {
+    tagline: '<em>Simamia gari lako.</em><br>Manage your vehicle.',
+    story: 'Hadithi ya mtu aliyebadilisha kijiji chake',
+    lblOwner: 'MMILIKI', titleOwner: 'Mimi ni Mmiliki', subOwner: 'Simamia magari, madereva na malipo',
+    lblDriver: 'DEREVA', titleDriver: 'Mimi ni Dereva', subDriver: 'Angalia maendeleo ya umiliki wako',
+    ibTitle: 'Sakinisha LUNO', ibSub: 'Ongeza kwenye skrini yako ya nyumbani', ibBtn: 'Sakinisha'
+  },
+  en: {
+    tagline: '<em>Manage your vehicle.</em><br>Simamia gari lako.',
+    story: 'Named after a man who changed his village',
+    lblOwner: 'OWNER', titleOwner: 'I am an Owner', subOwner: 'Manage vehicles, drivers and payments',
+    lblDriver: 'DRIVER', titleDriver: 'I am a Driver', subDriver: 'Track your ownership journey',
+    ibTitle: 'Install LUNO', ibSub: 'Add to your home screen', ibBtn: 'Install'
+  }
+};
+let lang = 'sw';
+let deferredPrompt = null;
+
+function setLang(l) {
+  lang = l;
+  document.getElementById('lb-sw').classList.toggle('on', l === 'sw');
+  document.getElementById('lb-en').classList.toggle('on', l === 'en');
+  const t = T[l];
+  document.getElementById('tagline').innerHTML = t.tagline;
+  document.getElementById('story-text').textContent = t.story;
+  document.getElementById('lbl-owner').textContent = t.lblOwner;
+  document.getElementById('title-owner').textContent = t.titleOwner;
+  document.getElementById('sub-owner').textContent = t.subOwner;
+  document.getElementById('lbl-driver').textContent = t.lblDriver;
+  document.getElementById('title-driver').textContent = t.titleDriver;
+  document.getElementById('sub-driver').textContent = t.subDriver;
+  document.getElementById('ib-title').textContent = t.ibTitle;
+  document.getElementById('ib-sub').textContent = t.ibSub;
+  document.getElementById('ib-btn').textContent = t.ibBtn;
+  localStorage.setItem('luno-lang', l);
+}
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('install-banner').classList.add('show');
+});
+
+function installApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+  }
+  dismissInstall();
+}
+
+function dismissInstall() {
+  document.getElementById('install-banner').classList.remove('show');
+  sessionStorage.setItem('luno-banner-dismissed', '1');
+}
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(() => {});
+}
+
+const saved = localStorage.getItem('luno-lang');
+if (saved) setLang(saved); else setLang('sw');
+</script>
+</body>
+</html>
