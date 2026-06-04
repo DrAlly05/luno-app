@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>LUNO Mwanajando — Weka Nenosiri Jipya</title>
+<style>
+  :root {
+    --black: #0A0B0D;
+    --card: #15171B;
+    --line: rgba(255,255,255,0.07);
+    --green: #00D26A;
+    --green-dim: rgba(0,210,106,0.12);
+    --white: #FFFFFF;
+    --muted: rgba(255,255,255,0.45);
+    --faint: rgba(255,255,255,0.25);
+    --red: #FF5A5F;
+    --amber: #FFB020;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; background: var(--black); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .wrap { width: 100%; max-width: 400px; }
+  .brand { text-align: center; margin-bottom: 28px; }
+  .brand .mark {
+    font-size: 26px; font-weight: 900; letter-spacing: 6px; color: var(--green);
+  }
+  .brand .sub {
+    font-size: 11px; letter-spacing: 3px; color: var(--faint);
+    text-transform: uppercase; margin-top: 4px;
+  }
+  .card {
+    background: var(--card);
+    border: 0.5px solid var(--line);
+    border-radius: 20px;
+    padding: 28px 24px;
+  }
+  h1 { font-size: 20px; font-weight: 800; margin: 0 0 6px; }
+  .lead { font-size: 13px; color: var(--muted); line-height: 19px; margin: 0 0 22px; }
+  label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--faint); margin: 0 0 8px; }
+  input {
+    width: 100%; padding: 14px 16px; font-size: 16px;
+    background: #0E1013; color: var(--white);
+    border: 1px solid var(--line); border-radius: 12px; outline: none;
+  }
+  input:focus { border-color: var(--green); }
+  .field { margin-bottom: 16px; }
+  button {
+    width: 100%; padding: 16px; font-size: 14px; font-weight: 800;
+    letter-spacing: 1px; color: var(--black); background: var(--green);
+    border: none; border-radius: 14px; cursor: pointer; margin-top: 6px;
+  }
+  button:disabled { opacity: 0.5; cursor: default; }
+  .hint { font-size: 11px; color: var(--faint); margin-top: 10px; text-align: center; }
+  .en { color: var(--faint); font-weight: 400; }
+  .icon {
+    width: 56px; height: 56px; border-radius: 16px; margin: 0 auto 18px;
+    display: flex; align-items: center; justify-content: center; font-size: 28px;
+  }
+  .icon.ok { background: var(--green-dim); }
+  .icon.err { background: rgba(255,90,95,0.12); }
+  .center { text-align: center; }
+  .msg { font-size: 13px; color: var(--muted); line-height: 20px; margin: 0 0 8px; }
+  .err-text { color: var(--red); font-size: 13px; margin-top: 12px; min-height: 18px; }
+  .hidden { display: none; }
+  .spinner {
+    width: 22px; height: 22px; border: 2px solid var(--line);
+    border-top-color: var(--green); border-radius: 50%;
+    margin: 30px auto; animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="mark">LUNO</div>
+      <div class="sub">Mwanajando</div>
+    </div>
+    <div class="card">
+
+      <!-- LOADING -->
+      <div id="loading">
+        <div class="spinner"></div>
+        <p class="msg center">Inapakia... <span class="en">Loading...</span></p>
+      </div>
+
+      <!-- RESET FORM -->
+      <div id="resetForm" class="hidden">
+        <h1>Weka nenosiri jipya</h1>
+        <p class="lead">Set a new password for your LUNO account. Andika nenosiri jipya hapa chini.</p>
+        <div class="field">
+          <label>Nenosiri jipya · New password</label>
+          <input id="pw1" type="password" autocomplete="new-password" placeholder="••••••••" />
+        </div>
+        <div class="field">
+          <label>Thibitisha · Confirm password</label>
+          <input id="pw2" type="password" autocomplete="new-password" placeholder="••••••••" />
+        </div>
+        <button id="submitBtn">HIFADHI NENOSIRI · SAVE</button>
+        <div class="err-text" id="formErr"></div>
+        <p class="hint">Lazima iwe herufi 6 au zaidi · Minimum 6 characters</p>
+      </div>
+
+      <!-- SUCCESS -->
+      <div id="success" class="hidden center">
+        <div class="icon ok">✅</div>
+        <h1>Nenosiri limebadilishwa!</h1>
+        <p class="msg">Password updated successfully.<br>Fungua app ya LUNO na uingie kwa nenosiri lako jipya.</p>
+        <p class="hint">Open the LUNO app and log in with your new password.</p>
+      </div>
+
+      <!-- CONFIRMED (signup) -->
+      <div id="confirmed" class="hidden center">
+        <div class="icon ok">✅</div>
+        <h1>Akaunti imethibitishwa!</h1>
+        <p class="msg">Your email is confirmed.<br>Fungua app ya LUNO na uingie.</p>
+        <p class="hint">Open the LUNO app and log in.</p>
+      </div>
+
+      <!-- ERROR -->
+      <div id="error" class="hidden center">
+        <div class="icon err">⚠️</div>
+        <h1>Kiungo kimeisha muda</h1>
+        <p class="msg" id="errMsg">This link is invalid or has expired.<br>Omba kiungo kipya kupitia app ya LUNO.</p>
+        <p class="hint">Request a new reset link from the LUNO app.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ─────────────────────────────────────────────────────────
+    //  LUNO Mwanajando — Supabase config
+    //  Project: "Luno MJ"
+    //  ⚠️ PASTE YOUR ANON (public) KEY BELOW — Supabase dashboard →
+    //     Project Settings → API → Project API keys → "anon public".
+    //     This key is safe to publish; it is the public client key.
+    // ─────────────────────────────────────────────────────────
+    const SUPABASE_URL = "https://nwwblduplnwhixvvatit.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im53d2JsZHVwbG53aGl4dnZhdGl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDAxMTksImV4cCI6MjA5NDE3NjExOX0.1F7Zxa_QV27-7D8sY8DKKsE9O6mV0Sj_P4L2rer52i8";
+
+    const { createClient } = supabase;
+    const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { detectSessionInUrl: true, flowType: "implicit", persistSession: false }
+    });
+
+    function show(id) {
+      ["loading", "resetForm", "success", "confirmed", "error"].forEach(function (s) {
+        document.getElementById(s).classList.toggle("hidden", s !== id);
+      });
+    }
+
+    function showError(text) {
+      if (text) document.getElementById("errMsg").innerHTML = text;
+      show("error");
+    }
+
+    // Parse the URL fragment Supabase appends (#access_token=...&type=recovery)
+    var hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+    var linkType = hash.get("type");
+    var linkErr = hash.get("error_description") || hash.get("error");
+
+    if (linkErr) {
+      showError(linkErr.replace(/\+/g, " ") + "<br>Omba kiungo kipya.");
+    }
+
+    // Recovery session arrives → reveal the form
+    client.auth.onAuthStateChange(function (event) {
+      if (event === "PASSWORD_RECOVERY") {
+        show("resetForm");
+      } else if (event === "SIGNED_IN" && linkType === "signup") {
+        show("confirmed");
+      }
+    });
+
+    // Fallback in case the event fired before the listener attached
+    if (linkType === "recovery") {
+      setTimeout(function () {
+        if (!document.getElementById("error").classList.contains("hidden")) return;
+        show("resetForm");
+      }, 600);
+    } else if (linkType === "signup") {
+      setTimeout(function () { show("confirmed"); }, 800);
+    } else if (!linkErr) {
+      // No recognizable token in the URL
+      setTimeout(function () {
+        client.auth.getSession().then(function (res) {
+          if (res.data.session) { show("resetForm"); }
+          else { showError("Kiungo si sahihi.<br>This link is invalid or has expired."); }
+        });
+      }, 800);
+    }
+
+    // Submit handler
+    document.getElementById("submitBtn").addEventListener("click", async function () {
+      var btn = this;
+      var pw1 = document.getElementById("pw1").value;
+      var pw2 = document.getElementById("pw2").value;
+      var errBox = document.getElementById("formErr");
+      errBox.textContent = "";
+
+      if (pw1.length < 6) { errBox.textContent = "Nenosiri ni fupi sana (herufi 6+). Too short."; return; }
+      if (pw1 !== pw2) { errBox.textContent = "Manenosiri hayafanani. Passwords don't match."; return; }
+
+      btn.disabled = true;
+      btn.textContent = "INAHIFADHI... · SAVING...";
+      try {
+        var result = await client.auth.updateUser({ password: pw1 });
+        if (result.error) {
+          errBox.textContent = result.error.message;
+          btn.disabled = false;
+          btn.textContent = "HIFADHI NENOSIRI · SAVE";
+        } else {
+          show("success");
+        }
+      } catch (e) {
+        errBox.textContent = (e && e.message) ? e.message : "Hitilafu. Try again.";
+        btn.disabled = false;
+        btn.textContent = "HIFADHI NENOSIRI · SAVE";
+      }
+    });
+  </script>
+</body>
+</html>
